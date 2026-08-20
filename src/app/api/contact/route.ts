@@ -51,8 +51,8 @@ export async function POST(request: NextRequest) {
 
     const inquiry = await ContactInquiry.create({ fullName, phone, email, serviceRequired, message })
 
-    // Send email (non-blocking)
-    sendContactNotification({ fullName, phone, email, serviceRequired, message }).catch(console.error)
+    // Send email (blocking to prevent serverless termination)
+    await sendContactNotification({ fullName, phone, email, serviceRequired, message }).catch(console.error)
 
     return NextResponse.json({
       success: true,
