@@ -120,7 +120,11 @@ export async function sendContactNotification(data: ContactEmailData): Promise<v
         
         <!-- Footer -->
         <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px; text-align: center;">
-          <p style="color: #64748b; margin: 0; font-size: 13px;">© ${new Date().getFullYear()} RCR ENTERPRISES | rcrenterprises786@gmail.com | 9619439243</p>
+          <p style="color: #64748b; margin: 0; font-size: 13px;">
+            © ${new Date().getFullYear()} RCR ENTERPRISES<br>
+            <a href="https://rcrenterprises.co.in/" style="color: ${brandRed}; text-decoration: none; font-weight: bold; margin-top: 5px; display: inline-block;">www.rcrenterprises.co.in</a><br>
+            rcrenterprises786@gmail.com | 9619439243
+          </p>
         </div>
       </div>
     </body>
@@ -171,7 +175,11 @@ export async function sendContactNotification(data: ContactEmailData): Promise<v
         
         <!-- Footer -->
         <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px; text-align: center;">
-          <p style="color: #64748b; margin: 0; font-size: 13px;">© ${new Date().getFullYear()} RCR ENTERPRISES | <a href="mailto:rcrenterprises786@gmail.com" style="color: ${brandRed}; text-decoration: none;">rcrenterprises786@gmail.com</a></p>
+          <p style="color: #64748b; margin: 0; font-size: 13px;">
+            © ${new Date().getFullYear()} RCR ENTERPRISES<br>
+            <a href="https://rcrenterprises.co.in/" style="color: ${brandRed}; text-decoration: none; font-weight: bold; margin-top: 5px; display: inline-block;">www.rcrenterprises.co.in</a><br>
+            <a href="mailto:rcrenterprises786@gmail.com" style="color: #64748b; text-decoration: none;">rcrenterprises786@gmail.com</a>
+          </p>
         </div>
       </div>
     </body>
