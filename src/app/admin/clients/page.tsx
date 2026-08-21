@@ -91,12 +91,10 @@ export default function AdminClientsPage() {
                   <tr key={client._id} className="hover:bg-slate-50 transition-colors">
                     <td className="p-4">
                       <div className="relative w-16 h-16 rounded-lg bg-white border border-slate-200 p-2 flex items-center justify-center">
-                        <Image 
+                        <img 
                           src={client.logo} 
                           alt={client.name} 
-                          width={48} 
-                          height={48} 
-                          className="object-contain max-h-full max-w-full"
+                          className="w-12 h-12 object-contain max-h-full max-w-full"
                         />
                       </div>
                     </td>

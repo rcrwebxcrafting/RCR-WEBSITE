@@ -37,20 +37,18 @@ export default async function ClientsPage() {
                   <div className="relative w-full h-24 flex items-center justify-center">
                     {client.website ? (
                       <a href={client.website} target="_blank" rel="noopener noreferrer" className="block w-full h-full relative" title={client.name}>
-                        <Image 
+                        <img 
                           src={client.logo} 
                           alt={client.name} 
-                          fill
-                          className="object-contain group-hover:scale-105 transition-transform duration-500" 
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
                         />
                       </a>
                     ) : (
                       <div className="w-full h-full relative" title={client.name}>
-                        <Image 
+                        <img 
                           src={client.logo} 
                           alt={client.name} 
-                          fill
-                          className="object-contain group-hover:scale-105 transition-transform duration-500" 
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
                         />
                       </div>
                     )}

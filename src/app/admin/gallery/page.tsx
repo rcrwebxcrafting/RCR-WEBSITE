@@ -70,9 +70,16 @@ export default function AdminGalleryPage() {
           </div>
           <div>
             <label className="block text-xs text-slate-500 mb-1.5">Category</label>
-            <select value={category} onChange={e => setCategory(e.target.value)} className="form-input">
-              {GALLERY_CATEGORIES.filter(c => c !== 'All').map(c => <option key={c} value={c} className="bg-white">{c}</option>)}
-            </select>
+            <input 
+              list="gallery-categories"
+              value={category} 
+              onChange={e => setCategory(e.target.value)} 
+              placeholder="Select or type new"
+              className="form-input" 
+            />
+            <datalist id="gallery-categories">
+              {GALLERY_CATEGORIES.filter(c => c !== 'All').map(c => <option key={c} value={c} />)}
+            </datalist>
           </div>
           <div className="flex items-end">
             <button onClick={() => fileRef.current?.click()} disabled={uploading}

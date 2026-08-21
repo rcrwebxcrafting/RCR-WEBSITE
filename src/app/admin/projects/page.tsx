@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { Plus, Pencil, Trash2, Search, MapPin, Calendar } from 'lucide-react'
+import { Plus, Pencil, Trash2, Search, MapPin, Calendar, Upload } from 'lucide-react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { cn, slugify, formatDateShort, getStatusColor, CONSTRUCTION_IMAGES } from '@/utils'
@@ -30,6 +30,7 @@ export default function AdminProjectsPage() {
     images: [CONSTRUCTION_IMAGES[0]], materials: '', featured: false, isActive: true,
   })
   const [saving, setSaving] = useState(false)
+  const [uploadingImage, setUploadingImage] = useState(false)
 
   const fetchProjects = useCallback(async () => {
     setLoading(true)
@@ -70,6 +71,35 @@ export default function AdminProjectsPage() {
       else toast.error(data.message || 'Failed')
     } catch { toast.error('Network error') }
     setSaving(false)
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingImage(true)
+
+    const uploadData = new FormData()
+    uploadData.append('image', file)
+    uploadData.append('folder', 'rcr-enterprises/projects')
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadData
+      })
+      const data = await res.json()
+      if (data.success) {
+        setForm(f => ({ ...f, coverImage: data.url }))
+        toast.success('Image uploaded successfully')
+      } else {
+        toast.error(data.message || 'Failed to upload image')
+      }
+    } catch {
+      toast.error('Error uploading image')
+    } finally {
+      setUploadingImage(false)
+    }
   }
 
   const handleDelete = async (id: string) => {
@@ -190,7 +220,26 @@ export default function AdminProjectsPage() {
           </div>
           <div>
             <label className="block text-xs text-slate-500 mb-1.5">Cover Image URL</label>
-            <input value={form.coverImage} onChange={e => setForm(f => ({ ...f, coverImage: e.target.value }))} placeholder="https://..." className="form-input font-mono text-xs" />
+            <div className="flex gap-2 items-center">
+              <input value={form.coverImage} onChange={e => setForm(f => ({ ...f, coverImage: e.target.value }))} placeholder="https://..." className="form-input font-mono text-xs flex-1" />
+              <div className="relative shrink-0">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={uploadingImage}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                />
+                <button
+                  type="button"
+                  disabled={uploadingImage}
+                  className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200 transition-colors disabled:opacity-50 border border-slate-200"
+                >
+                  <Upload size={14} />
+                  {uploadingImage ? 'Uploading...' : 'Upload'}
+                </button>
+              </div>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2 cursor-pointer">

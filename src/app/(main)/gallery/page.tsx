@@ -60,7 +60,7 @@ export default function GalleryPage() {
         <div className="container-custom relative z-10">
           {/* Category filters */}
           <div className="flex flex-wrap justify-center gap-3 mb-16">
-            {GALLERY_CATEGORIES.map(cat => (
+            {['All', ...Array.from(new Set(images.map(img => img.category))).filter(Boolean)].map(cat => (
               <button key={cat} onClick={() => handleFilter(cat)}
                 className={cn('px-6 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-all duration-300',
                   activeCategory === cat ? 'bg-brandRed text-white shadow-[0_8px_20px_-5px_rgba(192,30,46,0.3)]' : 'bg-white border border-slate-200 text-slate-500 hover:border-brandRed/30 hover:text-brandRed shadow-sm')}>

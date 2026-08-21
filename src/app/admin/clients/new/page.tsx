@@ -3,11 +3,12 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Save } from 'lucide-react'
+import { ArrowLeft, Save, Upload } from 'lucide-react'
 
 export default function AddClientPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [uploadingLogo, setUploadingLogo] = useState(false)
   const [error, setError] = useState('')
   
   const [formData, setFormData] = useState({
@@ -17,6 +18,37 @@ export default function AddClientPage() {
     order: 0,
     isActive: true
   })
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingLogo(true)
+    setError('')
+
+    const uploadData = new FormData()
+    uploadData.append('image', file)
+    uploadData.append('folder', 'rcr-enterprises/clients')
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadData
+      })
+
+      const data = await res.json()
+
+      if (data.success) {
+        setFormData(prev => ({ ...prev, logo: data.url }))
+      } else {
+        setError(data.message || 'Failed to upload image')
+      }
+    } catch (err: any) {
+      setError(err.message || 'Error uploading image')
+    } finally {
+      setUploadingLogo(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,15 +110,34 @@ export default function AddClientPage() {
 
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">Logo URL (Image Link) *</label>
-          <input 
-            type="url" 
-            required
-            value={formData.logo}
-            onChange={e => setFormData({...formData, logo: e.target.value})}
-            className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
-            placeholder="https://images.unsplash.com/photo-..."
-          />
-          <p className="text-xs text-slate-500 mt-1">Paste a valid image URL for the company logo. Square or transparent PNG is recommended.</p>
+          <div className="flex gap-3 items-center">
+            <input 
+              type="url" 
+              required
+              value={formData.logo}
+              onChange={e => setFormData({...formData, logo: e.target.value})}
+              className="flex-1 px-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              placeholder="https://images.unsplash.com/photo-..."
+            />
+            <div className="relative">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleLogoUpload}
+                disabled={uploadingLogo}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+              />
+              <button
+                type="button"
+                disabled={uploadingLogo}
+                className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition-colors disabled:opacity-50 border border-slate-200"
+              >
+                <Upload size={18} />
+                {uploadingLogo ? 'Uploading...' : 'Upload Local'}
+              </button>
+            </div>
+          </div>
+          <p className="text-xs text-slate-500 mt-2">Paste a valid image URL or upload directly from your device. Square or transparent PNG is recommended.</p>
         </div>
 
         <div>
@@ -129,7 +180,7 @@ export default function AddClientPage() {
         <div className="pt-6 border-t border-slate-100 flex justify-end">
           <button 
             type="submit" 
-            disabled={loading}
+            disabled={loading || uploadingLogo}
             className="flex items-center gap-2 px-6 py-2.5 bg-sky-600 text-white font-medium rounded-lg hover:bg-sky-700 transition-colors disabled:opacity-50"
           >
             <Save size={18} />

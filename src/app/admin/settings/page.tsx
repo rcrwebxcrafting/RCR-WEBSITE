@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Save, Globe, Phone, Search, Share2, Image as ImageIcon } from 'lucide-react'
+import { Save, Globe, Phone, Search, Share2, Image as ImageIcon, Upload } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { cn } from '@/utils'
 
@@ -57,6 +57,7 @@ export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState('general')
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [uploadingImage, setUploadingImage] = useState(false)
 
   useEffect(() => {
     fetch('/api/settings')
@@ -75,6 +76,34 @@ export default function AdminSettingsPage() {
       else toast.error(data.message || 'Save failed')
     } catch { toast.error('Network error') }
     setSaving(false)
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingImage(true)
+    const uploadData = new FormData()
+    uploadData.append('image', file)
+    uploadData.append('folder', 'rcr-enterprises/settings')
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadData
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSettings(prev => setNestedValue(prev, 'hero.backgroundImage', data.url))
+        toast.success('Image uploaded successfully')
+      } else {
+        toast.error(data.message || 'Failed to upload image')
+      }
+    } catch {
+      toast.error('Error uploading image')
+    } finally {
+      setUploadingImage(false)
+    }
   }
 
   const Field = ({ label, path, placeholder, textarea = false, type = 'text' }: { label: string; path: string; placeholder?: string; textarea?: boolean; type?: string }) => {
@@ -163,7 +192,35 @@ export default function AdminSettingsPage() {
           <>
             <Field label="Hero Heading" path="hero.heading" placeholder="Professional RCC Construction Services You Can Trust" />
             <Field label="Hero Subheading" path="hero.subheading" placeholder="Delivering Strong, Safe & Durable..." textarea />
-            <Field label="Background Image URL" path="hero.backgroundImage" placeholder="https://..." />
+            <div>
+              <label className="block text-xs text-slate-500 mb-1.5 font-medium">Background Image URL</label>
+              <div className="flex gap-2 items-center">
+                <input 
+                  type="text" 
+                  value={settings.hero?.backgroundImage || ''} 
+                  onChange={e => setSettings(prev => setNestedValue(prev, 'hero.backgroundImage', e.target.value))} 
+                  placeholder="https://..." 
+                  className="form-input flex-1" 
+                />
+                <div className="relative shrink-0">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploadingImage}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                  />
+                  <button
+                    type="button"
+                    disabled={uploadingImage}
+                    className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200 transition-colors disabled:opacity-50 border border-slate-200"
+                  >
+                    <Upload size={14} />
+                    {uploadingImage ? 'Uploading...' : 'Upload'}
+                  </button>
+                </div>
+              </div>
+            </div>
           </>
         )}
       </div>
