@@ -10,6 +10,9 @@ import Service from '@/models/Service'
 export const metadata: Metadata = {
   title: 'Our Services - RCC Construction Services | RCR ENTERPRISES',
   description: 'Explore all RCC and civil construction services by RCR ENTERPRISES.',
+  alternates: {
+    canonical: '/services',
+  },
 }
 
 const ICON_MAP: Record<string, React.ElementType> = {

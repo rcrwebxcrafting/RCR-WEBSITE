@@ -1,7 +1,13 @@
 import type { Metadata } from 'next'
 import PageHero from '@/components/shared/PageHero'
 
-export const metadata: Metadata = { title: 'Terms of Service | RCR ENTERPRISES' }
+export const metadata: Metadata = {
+  title: 'Terms of Service | RCR ENTERPRISES',
+  description: 'Terms of Service and legal agreements for RCR ENTERPRISES.',
+  alternates: {
+    canonical: '/terms',
+  },
+}
 
 export default function TermsPage() {
   return (

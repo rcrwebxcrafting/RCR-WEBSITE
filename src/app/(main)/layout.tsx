@@ -2,6 +2,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import WhatsAppWidget from '@/components/shared/WhatsAppWidget'
 import LanguagePopup from '@/components/shared/LanguagePopup'
+import LeadPopupModal from '@/components/shared/LeadPopupModal'
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,6 +12,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Footer />
       <WhatsAppWidget />
       <LanguagePopup />
+      <LeadPopupModal />
     </div>
   )
 }

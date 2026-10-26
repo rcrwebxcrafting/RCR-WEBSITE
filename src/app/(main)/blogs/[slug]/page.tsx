@@ -88,10 +88,14 @@ export async function generateMetadata(
   return {
     title: blog.seoTitle || `${blog.title} | RCR Enterprises`,
     description: blog.seoDescription || blog.excerpt,
+    alternates: {
+      canonical: `/blogs/${slug}`,
+    },
     openGraph: {
       title: blog.seoTitle || blog.title,
       description: blog.seoDescription || blog.excerpt,
       images: blog.coverImage ? [blog.coverImage] : [],
+      url: `/blogs/${slug}`,
     },
   }
 }

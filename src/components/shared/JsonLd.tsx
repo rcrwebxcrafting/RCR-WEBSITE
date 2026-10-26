@@ -1,14 +1,14 @@
-import { COMPANY_INFO } from '@/constants'
+import { COMPANY_INFO, SITE_URL } from '@/constants'
 
 export function LocalBusinessSchema() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': 'https://rcrenterprises.in',
+    '@id': SITE_URL,
     name: 'RCR ENTERPRISES',
     alternateName: 'RCR Enterprises',
     description: 'Professional RCC Work Contractor in Virar East, Maharashtra offering civil construction, slab work, shuttering, and more.',
-    url: 'https://rcrenterprises.in',
+    url: SITE_URL,
     telephone: `+91${COMPANY_INFO.phone}`,
     email: COMPANY_INFO.email,
     foundingDate: '2014',
@@ -29,7 +29,7 @@ export function LocalBusinessSchema() {
       closes: '19:00',
     },
     priceRange: '₹₹',
-    areaServed: ['Virar', 'Vasai', 'Nalasopara', 'Palghar', 'Boisar', 'Maharashtra'],
+    areaServed: ['Mumbai', 'Pune', 'Thane', 'Navi Mumbai', 'Virar', 'Vasai', 'Palghar', 'Maharashtra'],
     serviceType: ['RCC Construction', 'Civil Construction', 'Slab Work', 'Shuttering Work', 'Labour Contract', 'Column & Beam Work'],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
@@ -41,7 +41,11 @@ export function LocalBusinessSchema() {
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shuttering Work' } },
       ],
     },
-    sameAs: ['https://wa.me/919619439243'],
+    sameAs: [
+      COMPANY_INFO.social.whatsapp,
+      COMPANY_INFO.social.instagram,
+      COMPANY_INFO.social.facebook
+    ],
     aggregateRating: { '@type': 'AggregateRating', ratingValue: '5', bestRating: '5', worstRating: '1', ratingCount: '47' },
   }
 

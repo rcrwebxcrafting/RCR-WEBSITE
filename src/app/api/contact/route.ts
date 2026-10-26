@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import { ContactInquiry } from '@/models/index'
 import { verifyRequestToken } from '@/lib/auth'
-import { sendContactNotification } from '@/lib/cloudinary'
+import { sendContactNotification } from '@/lib/email'
 
 export async function GET(request: NextRequest) {
   try {
@@ -38,21 +38,43 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB()
     const body = await request.json()
-    const { fullName, phone, email, serviceRequired, message } = body
+    const { fullName, phone, email, serviceRequired, location, message } = body
 
-    if (!fullName || !phone || !email || !serviceRequired || !message) {
-      return NextResponse.json({ success: false, message: 'All fields are required' }, { status: 400 })
+    if (!fullName?.trim() || !phone?.trim()) {
+      return NextResponse.json({ success: false, message: 'Name and Phone number are required' }, { status: 400 })
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json({ success: false, message: 'Invalid email address' }, { status: 400 })
-    }
+    const cleanPhone = phone.trim()
+    const cleanName = fullName.trim()
+    const finalService = serviceRequired?.trim() || 'RCC Work & Civil Construction'
 
-    const inquiry = await ContactInquiry.create({ fullName, phone, email, serviceRequired, message })
+    const rawEmail = email?.trim()
+    const finalEmail = rawEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawEmail)
+      ? rawEmail.toLowerCase()
+      : `lead_${cleanPhone.replace(/\D/g, '') || Date.now()}@rcrenterprises.co.in`
+
+    const finalLocation = location?.trim() ? ` [Location: ${location.trim()}]` : ''
+    const finalMessage = message?.trim() 
+      ? `${message.trim()}${finalLocation}` 
+      : `Instant Quote Request from Website Popup for ${finalService}${finalLocation}`
+
+    const inquiry = await ContactInquiry.create({ 
+      fullName: cleanName, 
+      phone: cleanPhone, 
+      email: finalEmail, 
+      serviceRequired: finalService, 
+      message: finalMessage 
+    })
 
     // Send email (blocking to prevent serverless termination)
-    await sendContactNotification({ fullName, phone, email, serviceRequired, message }).catch(console.error)
+    await sendContactNotification({ 
+      fullName: cleanName, 
+      phone: cleanPhone, 
+      email: finalEmail, 
+      serviceRequired: finalService, 
+      location: location?.trim() || '',
+      message: message?.trim() || `Instant Quote Request for ${finalService}`,
+    }).catch(console.error)
 
     return NextResponse.json({
       success: true,

@@ -9,6 +9,9 @@ import { ChevronRight } from 'lucide-react'
 export const metadata: Metadata = {
   title: 'HTML Sitemap | RCR ENTERPRISES',
   description: 'Complete HTML Sitemap of RCR Enterprises website for easy navigation and search engine indexing.',
+  alternates: {
+    canonical: '/sitemap',
+  },
 }
 
 export default async function SitemapPage() {

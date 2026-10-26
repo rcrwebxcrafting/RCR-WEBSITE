@@ -4,6 +4,9 @@ import PageHero from '@/components/shared/PageHero'
 export const metadata: Metadata = {
   title: 'Privacy Policy | RCR ENTERPRISES',
   description: 'Privacy Policy for RCR ENTERPRISES website.',
+  alternates: {
+    canonical: '/privacy-policy',
+  },
 }
 
 export default function PrivacyPolicyPage() {

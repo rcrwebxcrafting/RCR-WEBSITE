@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { TARGET_LOCATIONS, SERVICES_LIST, COMPANY_INFO } from '@/constants'
+import { TARGET_LOCATIONS, SERVICES_LIST, COMPANY_INFO, SITE_URL } from '@/constants'
 import { 
   MapPin, 
   ArrowRight, 
@@ -33,28 +33,72 @@ function getDeterministicIndex(str: string, max: number): number {
 
 const REGIONS = [
   {
+    name: 'Pune & PCMC Metropolitan Region',
+    cities: [
+      'Pune', 'PCMC (Pimpri-Chinchwad)', 'Hinjawadi', 'Wakad', 'Baner', 'Balewadi', 'Aundh', 'Pashan', 'Bavdhan',
+      'Kothrud', 'Karve Nagar', 'Warje', 'Sinhagad Road', 'Dhayari', 'Narhe', 'Ambegaon', 'Katraj', 'Bibwewadi',
+      'Sahakar Nagar', 'Swargate', 'Deccan Gymkhana', 'Shivajinagar', 'Camp (Pune Cantonment)', 'Koregaon Park',
+      'Kalyani Nagar', 'Viman Nagar', 'Kharadi', 'Wagholi', 'Magarpatta City', 'Hadapsar', 'Fursungi', 'Handewadi',
+      'Kondhwa', 'Undri', 'Pisoli', 'Wanowrie', 'Fatima Nagar', 'Yerawada', 'Vishrantwadi', 'Dhanori', 'Lohegaon',
+      'Tingre Nagar', 'Alandi Road', 'Nagar Road', 'Mahalunge', 'Sus', 'Punawale', 'Ravet', 'Tathawade', 'Thergaon',
+      'Kalewadi', 'Pimple Saudagar', 'Pimple Nilakh', 'Pimple Gurav', 'Rahatani', 'Pimpri', 'Chinchwad', 'Akurdi',
+      'Nigdi', 'Pradhikaran', 'Bhosari (MIDC)', 'Moshi', 'Chakan (Industrial Hub)', 'Talawade (IT Park)', 'Dighi',
+      'Charholi', 'Markal', 'Talegaon Dabhade', 'Somatane', 'Shirwal', 'Ranjangaon (MIDC)'
+    ]
+  },
+  {
+    name: 'South Mumbai & Business Districts',
+    cities: [
+      'Nariman Point', 'Colaba', 'Cuffe Parade', 'Fort', 'Marine Drive', 'Churchgate', 'Marine Lines',
+      'Charni Road', 'Grant Road', 'Mumbai Central', 'Malabar Hill', 'Breach Candy', 'Tardeo', 'Mahalaxmi',
+      'Lower Parel', 'Worli', 'Prabhadevi', 'Byculla', 'Lalbaug', 'Parel', 'Sewri', 'Wadala', 'Dadar',
+      'Matunga', 'Sion', 'Dharavi'
+    ]
+  },
+  {
     name: 'Western Suburbs & Palghar',
-    cities: ['Mumbai', 'Churchgate', 'Marine Lines', 'Charni Road', 'Grant Road', 'Mumbai Central', 'Mahalaxmi', 'Lower Parel', 'Prabhadevi', 'Dadar', 'Mahim', 'Bandra', 'Khar', 'Santacruz', 'Vile Parle', 'Andheri', 'Jogeshwari', 'Goregaon', 'Malad', 'Kandivali', 'Borivali', 'Dahisar', 'Mira Road', 'Bhayandar', 'Naigaon', 'Vasai', 'Nalasopara', 'Virar', 'Palghar', 'Boisar']
+    cities: [
+      'Mumbai', 'BKC (Bandra Kurla Complex)', 'Bandra', 'Bandra West', 'Bandra East', 'Khar Road', 'Santacruz', 'Kalina',
+      'Vakola', 'Vile Parle', 'Juhu', 'Andheri', 'Andheri East', 'Andheri West', 'Chakala', 'Marol', 'Sakinaka',
+      'Lokhandwala', 'Versova', 'Oshiwara', 'Jogeshwari', 'Ram Mandir', 'Goregaon', 'Dindoshi', 'Malad',
+      'Malad East', 'Malad West', 'Mindspace', 'Kandivali', 'Kandivali East', 'Kandivali West', 'Thakur Village',
+      'Charkop', 'Borivali', 'Borivali East', 'Borivali West', 'IC Colony', 'Gorai', 'Dahisar', 'Mira Road',
+      'Bhayandar', 'Naigaon', 'Vasai Road', 'Nalasopara', 'Virar', 'Vaitarna', 'Saphale', 'Kelve Road',
+      'Palghar', 'Umroli', 'Boisar', 'Vangaon', 'Dahanu Road'
+    ]
   },
   {
     name: 'Central Suburbs & Thane',
-    cities: ['CSMT', 'Byculla', 'Parel', 'Matunga', 'Sion', 'Kurla', 'Vidyavihar', 'Ghatkopar', 'Vikhroli', 'Kanjurmarg', 'Bhandup', 'Nahur', 'Mulund', 'Thane', 'Kalwa', 'Mumbra', 'Diva', 'Dombivli', 'Thakurli', 'Kalyan', 'Ulhasnagar', 'Ambernath', 'Badlapur', 'Titwala']
+    cities: [
+      'CSMT', 'Masjid', 'Sandhurst Road', 'Chinchpokli', 'Currey Road', 'Kurla', 'Vidyavihar', 'Ghatkopar',
+      'Powai', 'Chandivali', 'Vikhroli', 'Kanjurmarg', 'Bhandup', 'Nahur', 'Mulund', 'Thane', 'Ghodbunder Road',
+      'Majiwada', 'Vartak Nagar', 'Pokhran Road', 'Hiranandani Estate', 'Kasarvadavali', 'Wagle Estate', 'Kalwa',
+      'Mumbra', 'Diva', 'Kopar', 'Dombivli', 'Thakurli', 'Kalyan', 'Bhiwandi', 'Vithalwadi', 'Ulhasnagar',
+      'Ambernath', 'Badlapur', 'Vangani', 'Shelu', 'Neral', 'Bhivpuri Road', 'Karjat', 'Palasdari', 'Kelavli',
+      'Dolavli', 'Lowjee', 'Khopoli', 'Shahad', 'Ambivli', 'Titwala', 'Khadavli', 'Vasind', 'Asangaon',
+      'Atgaon', 'Thansit', 'Khardi', 'Umbermali', 'Kasara'
+    ]
   },
   {
     name: 'Harbour Line & Navi Mumbai',
-    cities: ['Wadala', 'Chunabhatti', 'Chembur', 'Govandi', 'Mankhurd', 'Navi Mumbai', 'Vashi', 'Sanpada', 'Juinagar', 'Nerul', 'Seawoods', 'Belapur', 'Kharghar', 'Panvel']
-  },
-  {
-    name: 'South Mumbai & Key Areas',
-    cities: ['South Mumbai', 'Worli', 'Powai']
+    cities: [
+      'Navi Mumbai', 'Dockyard Road', 'Reay Road', 'Cotton Green', 'GTB Nagar', 'Chunabhatti', 'Tilak Nagar',
+      'Chembur', 'Govandi', 'Mankhurd', 'Vashi', 'Sanpada', 'Juinagar', 'Nerul', 'Seawoods-Darave',
+      'CBD Belapur', 'Kharghar', 'Kamothe', 'Mansarovar', 'Khandeshwar', 'Panvel', 'New Panvel', 'Taloja',
+      'Digha Gaon', 'Airoli', 'Rabale', 'Ghansoli', 'Kopar Khairane', 'Turbhe', 'Mahape', 'Sagar Sangam',
+      'Targhar', 'Ulwe', 'Bamandongri', 'Kharkopar', 'Gavhan', 'Ranjanpada', 'Nhava Sheva', 'Dronagiri', 'Uran'
+    ]
   }
 ]
 
 function getRelatedLocationsForService(currentCityName: string) {
   const region = REGIONS.find(r => r.cities.includes(currentCityName))
-  if (!region) return []
-  const otherCityNames = region.cities.filter(name => name !== currentCityName)
-  return TARGET_LOCATIONS.filter(loc => otherCityNames.includes(loc.name)).slice(0, 6)
+  if (region) {
+    const otherCityNames = region.cities.filter(name => name !== currentCityName)
+    const matches = TARGET_LOCATIONS.filter(loc => otherCityNames.includes(loc.name)).slice(0, 6)
+    if (matches.length > 0) return matches
+  }
+  return TARGET_LOCATIONS.filter(loc => loc.name !== currentCityName).slice(0, 6)
 }
 
 export async function generateMetadata({ params }: ServiceLocationPageProps): Promise<Metadata> {
@@ -89,6 +133,9 @@ export async function generateMetadata({ params }: ServiceLocationPageProps): Pr
       locale: 'en_IN',
       type: 'website',
     },
+    alternates: {
+      canonical: `/locations/${location.slug}/${service.slug}`,
+    },
   }
 }
 
@@ -115,7 +162,7 @@ export default async function ServiceLocationPage({ params }: ServiceLocationPag
   }
 
   const relatedLocations = getRelatedLocationsForService(location.name)
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://rcrenterprises.in'
+  const baseUrl = SITE_URL
 
   // Dynamic FAQs tailored to specific Service + Location
   const faqs = [

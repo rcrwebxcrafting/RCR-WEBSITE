@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Phone, Mail, MapPin, Send, Clock, ChevronDown } from 'lucide-react'
+import { Phone, Mail, MapPin, Send, Clock, ChevronDown, Instagram, Facebook } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { COMPANY_INFO, SERVICES_LIST_FOR_CONTACT } from '@/constants'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -145,11 +145,38 @@ export default function ContactSection() {
               href="https://wa.me/919619439243"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative z-10 flex items-center justify-center gap-2 py-4 px-6 rounded-xl text-sm font-bold text-white transition-all hover:scale-[1.02] active:scale-95 shadow-[0_5px_20px_rgba(37,211,102,0.3)] hover:shadow-[0_8px_25px_rgba(37,211,102,0.4)]"
+              className="relative z-10 flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-sm font-bold text-white transition-all hover:scale-[1.02] active:scale-95 shadow-[0_5px_20px_rgba(37,211,102,0.3)] hover:shadow-[0_8px_25px_rgba(37,211,102,0.4)]"
               style={{ background: '#25D366' }}
             >
               {t('contact.chatWhatsApp')}
             </a>
+
+            {/* Social Follow */}
+            <div className="relative z-10 mt-3 pt-3 border-t border-white/10 flex items-center justify-between gap-3">
+              <span className="text-[11px] font-mono tracking-wider text-slate-400 uppercase">Follow On:</span>
+              <div className="flex items-center gap-2">
+                <a
+                  href={COMPANY_INFO.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-pink-500/50 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center gap-1.5 text-xs font-semibold transition-all duration-300"
+                  title="Follow RCR Enterprises on Instagram"
+                >
+                  <Instagram size={13} />
+                  <span>Instagram</span>
+                </a>
+                <a
+                  href={COMPANY_INFO.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-blue-500/50 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center gap-1.5 text-xs font-semibold transition-all duration-300"
+                  title="Follow RCR Enterprises on Facebook"
+                >
+                  <Facebook size={13} />
+                  <span>Facebook</span>
+                </a>
+              </div>
+            </div>
           </motion.div>
 
           {/* Form */}

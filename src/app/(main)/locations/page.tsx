@@ -6,34 +6,83 @@ import PageHero from '@/components/shared/PageHero'
 import CTASection from '@/components/sections/CTASection'
 
 export const metadata: Metadata = {
-  title: 'Areas We Serve in Mumbai, Thane & Palghar | RCR Enterprises',
-  description: 'RCR Enterprises provides top-quality RCC Work and Civil Construction services across Mumbai, Navi Mumbai, Thane, Vasai, Virar, and Palghar districts.',
+  title: 'RCC Work Contractors in Mumbai (All Locations) & Pune | RCR Enterprises',
+  description: 'RCR Enterprises provides top-quality RCC Work and Civil Construction services across Mumbai (all locations), Pune, Navi Mumbai, Thane, Vasai-Virar, and Palghar districts.',
+  alternates: {
+    canonical: '/locations',
+  },
 }
 
 export default function LocationsPage() {
-  // Group locations by line/region for better UX
-  const westernLine = ['Mumbai', 'Churchgate', 'Marine Lines', 'Charni Road', 'Grant Road', 'Mumbai Central', 'Mahalaxmi', 'Lower Parel', 'Prabhadevi', 'Dadar', 'Mahim', 'Bandra', 'Khar', 'Santacruz', 'Vile Parle', 'Andheri', 'Jogeshwari', 'Goregaon', 'Malad', 'Kandivali', 'Borivali', 'Dahisar', 'Mira Road', 'Bhayandar', 'Naigaon', 'Vasai', 'Nalasopara', 'Virar', 'Palghar', 'Boisar']
-  const centralLine = ['CSMT', 'Byculla', 'Parel', 'Matunga', 'Sion', 'Kurla', 'Vidyavihar', 'Ghatkopar', 'Vikhroli', 'Kanjurmarg', 'Bhandup', 'Nahur', 'Mulund', 'Thane', 'Kalwa', 'Mumbra', 'Diva', 'Dombivli', 'Thakurli', 'Kalyan', 'Ulhasnagar', 'Ambernath', 'Badlapur', 'Titwala']
-  const harbourLine = ['Wadala', 'Chunabhatti', 'Chembur', 'Govandi', 'Mankhurd', 'Navi Mumbai', 'Vashi', 'Sanpada', 'Juinagar', 'Nerul', 'Seawoods', 'Belapur', 'Kharghar', 'Panvel']
-  const southMumbai = ['South Mumbai', 'Worli', 'Powai']
+  // Group locations by region for comprehensive browsability
+  const topHubs = ['Mumbai', 'Pune', 'Thane', 'Navi Mumbai', 'Virar', 'Palghar']
+  
+  const puneRegion = [
+    'Pune', 'PCMC (Pimpri-Chinchwad)', 'Hinjawadi', 'Wakad', 'Baner', 'Balewadi', 'Aundh', 'Pashan', 'Bavdhan',
+    'Kothrud', 'Karve Nagar', 'Warje', 'Sinhagad Road', 'Dhayari', 'Narhe', 'Ambegaon', 'Katraj', 'Bibwewadi',
+    'Sahakar Nagar', 'Swargate', 'Deccan Gymkhana', 'Shivajinagar', 'Camp (Pune Cantonment)', 'Koregaon Park',
+    'Kalyani Nagar', 'Viman Nagar', 'Kharadi', 'Wagholi', 'Magarpatta City', 'Hadapsar', 'Fursungi', 'Handewadi',
+    'Kondhwa', 'Undri', 'Pisoli', 'Wanowrie', 'Fatima Nagar', 'Yerawada', 'Vishrantwadi', 'Dhanori', 'Lohegaon',
+    'Tingre Nagar', 'Alandi Road', 'Nagar Road', 'Mahalunge', 'Sus', 'Punawale', 'Ravet', 'Tathawade', 'Thergaon',
+    'Kalewadi', 'Pimple Saudagar', 'Pimple Nilakh', 'Pimple Gurav', 'Rahatani', 'Pimpri', 'Chinchwad', 'Akurdi',
+    'Nigdi', 'Pradhikaran', 'Bhosari (MIDC)', 'Moshi', 'Chakan (Industrial Hub)', 'Talawade (IT Park)', 'Dighi',
+    'Charholi', 'Markal', 'Talegaon Dabhade', 'Somatane', 'Shirwal', 'Ranjangaon (MIDC)'
+  ]
+
+  const southMumbai = [
+    'Nariman Point', 'Colaba', 'Cuffe Parade', 'Fort', 'Marine Drive', 'Churchgate', 'Marine Lines',
+    'Charni Road', 'Grant Road', 'Mumbai Central', 'Malabar Hill', 'Breach Candy', 'Tardeo', 'Mahalaxmi',
+    'Lower Parel', 'Worli', 'Prabhadevi', 'Byculla', 'Lalbaug', 'Parel', 'Sewri', 'Wadala', 'Dadar',
+    'Matunga', 'Sion', 'Dharavi'
+  ]
+
+  const westernSuburbs = [
+    'BKC (Bandra Kurla Complex)', 'Bandra', 'Bandra West', 'Bandra East', 'Khar Road', 'Santacruz', 'Kalina',
+    'Vakola', 'Vile Parle', 'Juhu', 'Andheri', 'Andheri East', 'Andheri West', 'Chakala', 'Marol', 'Sakinaka',
+    'Lokhandwala', 'Versova', 'Oshiwara', 'Jogeshwari', 'Ram Mandir', 'Goregaon', 'Dindoshi', 'Malad',
+    'Malad East', 'Malad West', 'Mindspace', 'Kandivali', 'Kandivali East', 'Kandivali West', 'Thakur Village',
+    'Charkop', 'Borivali', 'Borivali East', 'Borivali West', 'IC Colony', 'Gorai', 'Dahisar', 'Mira Road',
+    'Bhayandar', 'Naigaon', 'Vasai Road', 'Nalasopara', 'Virar', 'Vaitarna', 'Saphale', 'Kelve Road',
+    'Palghar', 'Umroli', 'Boisar', 'Vangaon', 'Dahanu Road'
+  ]
+
+  const centralSuburbs = [
+    'CSMT', 'Masjid', 'Sandhurst Road', 'Chinchpokli', 'Currey Road', 'Kurla', 'Vidyavihar', 'Ghatkopar',
+    'Powai', 'Chandivali', 'Vikhroli', 'Kanjurmarg', 'Bhandup', 'Nahur', 'Mulund', 'Thane', 'Ghodbunder Road',
+    'Majiwada', 'Vartak Nagar', 'Pokhran Road', 'Hiranandani Estate', 'Kasarvadavali', 'Wagle Estate', 'Kalwa',
+    'Mumbra', 'Diva', 'Kopar', 'Dombivli', 'Thakurli', 'Kalyan', 'Bhiwandi', 'Vithalwadi', 'Ulhasnagar',
+    'Ambernath', 'Badlapur', 'Vangani', 'Shelu', 'Neral', 'Bhivpuri Road', 'Karjat', 'Palasdari', 'Kelavli',
+    'Dolavli', 'Lowjee', 'Khopoli', 'Shahad', 'Ambivli', 'Titwala', 'Khadavli', 'Vasind', 'Asangaon',
+    'Atgaon', 'Thansit', 'Khardi', 'Umbermali', 'Kasara'
+  ]
+
+  const harbourAndNaviMumbai = [
+    'Navi Mumbai', 'Dockyard Road', 'Reay Road', 'Cotton Green', 'GTB Nagar', 'Chunabhatti', 'Tilak Nagar',
+    'Chembur', 'Govandi', 'Mankhurd', 'Vashi', 'Sanpada', 'Juinagar', 'Nerul', 'Seawoods-Darave',
+    'CBD Belapur', 'Kharghar', 'Kamothe', 'Mansarovar', 'Khandeshwar', 'Panvel', 'New Panvel', 'Taloja',
+    'Digha Gaon', 'Airoli', 'Rabale', 'Ghansoli', 'Kopar Khairane', 'Turbhe', 'Mahape', 'Sagar Sangam',
+    'Targhar', 'Ulwe', 'Bamandongri', 'Kharkopar', 'Gavhan', 'Ranjanpada', 'Nhava Sheva', 'Dronagiri', 'Uran'
+  ]
 
   const getLocationsByNames = (names: string[]) => {
     return TARGET_LOCATIONS.filter(loc => names.includes(loc.name))
   }
 
   const regions = [
-    { title: 'Western Suburbs & Palghar', locations: getLocationsByNames(westernLine) },
-    { title: 'Central Suburbs & Thane', locations: getLocationsByNames(centralLine) },
-    { title: 'Harbour Line & Navi Mumbai', locations: getLocationsByNames(harbourLine) },
-    { title: 'South Mumbai & Key Areas', locations: getLocationsByNames(southMumbai) },
+    { title: 'Top Priority Hubs: Mumbai & Pune', locations: getLocationsByNames(topHubs) },
+    { title: 'Pune & PCMC Metropolitan Region', locations: getLocationsByNames(puneRegion) },
+    { title: 'South Mumbai & Business Districts', locations: getLocationsByNames(southMumbai) },
+    { title: 'Western Suburbs & Palghar District', locations: getLocationsByNames(westernSuburbs) },
+    { title: 'Central Suburbs & Thane District', locations: getLocationsByNames(centralSuburbs) },
+    { title: 'Harbour Line, Navi Mumbai & Industrial Nodes', locations: getLocationsByNames(harbourAndNaviMumbai) },
   ]
 
   return (
     <main className="min-h-screen bg-slate-50">
       <PageHero
         badge="Service Areas"
-        title="Building Strong Foundations Across **Mumbai**"
-        subtitle="From South Mumbai to Palghar, and Navi Mumbai to Kalyan, our expert civil contractors are available everywhere for your RCC and construction needs."
+        title="Building Strong Foundations Across **Mumbai & Pune**"
+        subtitle="From Mumbai (All Locations & Suburbs) to Pune, Thane, Navi Mumbai, and Palghar, our expert civil and RCC contractors are available across all regions for turnkey construction."
         backgroundImage="/images/hero_construction_bg.png"
       />
 

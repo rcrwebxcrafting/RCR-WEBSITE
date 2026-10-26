@@ -3,6 +3,9 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Our Projects - Portfolio of RCC & Civil Work | RCR ENTERPRISES',
   description: 'Explore our portfolio of successfully completed RCC work, slab casting, and civil construction projects across Mumbai, Virar, and Palghar.',
+  alternates: {
+    canonical: '/projects',
+  },
 }
 
 export default function ProjectsLayout({

@@ -19,6 +19,7 @@ interface Project {
   location: string
   startDate: string
   workType: string
+  clientName?: string
 }
 
 const FILTERS = ['all', 'ongoing', 'completed']
@@ -144,6 +145,12 @@ function ProjectCard({ project }: { project: Project }) {
         </span>
       </div>
       <div className="p-5">
+        {project.clientName && (
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider mb-2.5 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-brandRed" />
+            <span>{project.clientName}</span>
+          </div>
+        )}
         <h3 className="font-display font-bold text-slate-900 text-base mb-2 group-hover:text-brandRed transition-colors line-clamp-1">{project.title}</h3>
         <p className="text-sm font-medium text-slate-700 leading-relaxed mb-4 line-clamp-2">{project.shortDescription}</p>
         <div className="flex items-center justify-between text-xs font-medium text-slate-600">

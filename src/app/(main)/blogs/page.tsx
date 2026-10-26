@@ -8,6 +8,9 @@ import PageHero from '@/components/shared/PageHero'
 export const metadata: Metadata = {
   title: 'Blog | RCR Enterprises',
   description: 'Read the latest insights, guides, and updates about RCC construction, civil engineering, and building projects in Mumbai and Maharashtra.',
+  alternates: {
+    canonical: '/blogs',
+  },
 }
 
 export const dynamic = 'force-dynamic'

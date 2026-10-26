@@ -20,6 +20,7 @@ interface Project {
   location: string
   startDate: string
   workType: string
+  clientName?: string
 }
 
 const STATUS_FILTERS = ['all', 'ongoing', 'completed', 'upcoming']
@@ -130,7 +131,14 @@ export default function ProjectsPage() {
                         </span>
                       </div>
                       <div className="p-6 lg:p-8">
-                        <div className="text-[11px] font-bold text-brandRed mb-3 uppercase tracking-widest">{p.workType}</div>
+                        <div className="flex items-center justify-between gap-2 mb-3">
+                          <span className="text-[11px] font-bold text-brandRed uppercase tracking-widest">{p.workType}</span>
+                          {p.clientName && (
+                            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-900 text-white line-clamp-1 max-w-[180px]">
+                              {p.clientName}
+                            </span>
+                          )}
+                        </div>
                         <h3 className="font-display font-black text-slate-900 text-xl lg:text-2xl mb-3 group-hover:text-brandRed transition-colors leading-tight line-clamp-2">{p.title}</h3>
                         <p className="text-sm font-medium text-slate-500 mb-6 line-clamp-2 leading-relaxed group-hover:text-slate-600 transition-colors">{p.shortDescription}</p>
                         <div className="flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-wider">

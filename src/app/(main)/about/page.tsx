@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CheckCircle, Award, FileText, Shield, Target, Eye } from 'lucide-react'
-import { COMPANY_INFO, STATS, WHY_CHOOSE_US } from '@/constants'
+import { COMPANY_INFO, STATS, WHY_CHOOSE_US, SITE_URL } from '@/constants'
 import PageHero from '@/components/shared/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import WhyChooseUs from '@/components/sections/WhyChooseUs'
@@ -12,6 +12,9 @@ import StatsSection from '@/components/shared/StatsSection'
 export const metadata: Metadata = {
   title: 'About RCR ENTERPRISES - RCC Work Contractor Virar East',
   description: 'Learn about RCR ENTERPRISES, a trusted RCC Work Contractor in Virar East, Maharashtra. Micro Enterprise led by Momin Noor Alam Shaikh.',
+  alternates: {
+    canonical: '/about',
+  },
 }
 
 export default function AboutPage() {
@@ -25,7 +28,7 @@ export default function AboutPage() {
       name: 'RCR ENTERPRISES',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://rcrenterprises.in/logo.png'
+        url: `${SITE_URL}/logo_new.png`
       }
     }
   }

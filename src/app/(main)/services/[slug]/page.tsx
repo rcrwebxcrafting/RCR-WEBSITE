@@ -26,6 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${service.title} - RCR ENTERPRISES`,
     description: service.shortDescription || `Professional ${service.title} services by RCR ENTERPRISES in Virar East.`,
+    alternates: {
+      canonical: `/services/${slug}`,
+    },
+    openGraph: {
+      title: `${service.title} - RCR ENTERPRISES`,
+      description: service.shortDescription,
+      url: `/services/${slug}`,
+    },
   }
 }
 

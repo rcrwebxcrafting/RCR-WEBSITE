@@ -179,7 +179,7 @@ export default function ProjectDetailClient({ project, images }: { project: any,
                       { label: 'Category', value: project.category?.charAt(0).toUpperCase() + project.category?.slice(1) },
                       { label: 'Location', value: project.location, icon: MapPin },
                       { label: 'Timeline', value: `${project.startDate ? formatDate(project.startDate) : ''} - ${project.endDate ? formatDate(project.endDate) : 'Present'}`, icon: Calendar },
-                      { label: 'Budget', value: project.budget || 'Confidential' },
+                      ...(project.budget ? [{ label: 'Budget', value: project.budget }] : []),
                       { label: 'Client', value: project.clientName || 'Private Client' },
                     ].map(({ label, value, icon: Icon }, idx) => (
                       <div key={label} className="border-b border-slate-100 pb-5 last:border-0 last:pb-0">

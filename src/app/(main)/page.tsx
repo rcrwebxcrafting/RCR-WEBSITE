@@ -10,10 +10,16 @@ import ProcessSection from '@/components/sections/ProcessSection'
 import CTASection from '@/components/sections/CTASection'
 import ContactSection from '@/components/sections/ContactSection'
 import ClientsSection from '@/components/sections/ClientsSection'
+import DeveloperPartnerSection from '@/components/sections/DeveloperPartnerSection'
+
+import { SITE_URL } from '@/constants'
 
 export const metadata: Metadata = {
   title: 'Top RCC Work & Civil Construction Contractor in Mumbai & Palghar',
   description: 'Looking for the best RCC work contractor? RCR ENTERPRISES specializes in civil construction, slab casting, and turnkey building projects in Mumbai, Virar & Vasai.',
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export const dynamic = 'force-dynamic'
@@ -23,7 +29,7 @@ export default function HomePage() {
     '@context': 'https://schema.org',
     '@type': 'GeneralContractor',
     name: 'RCR ENTERPRISES',
-    image: 'https://rcrenterprises.in/og-image.jpg',
+    image: `${SITE_URL}/og-image.jpg`,
     description: 'Top-rated RCC Work and Civil Construction Contractor in Mumbai, Virar, and Palghar. Experts in slab casting and turnkey projects.',
     address: {
       '@type': 'PostalAddress',
@@ -33,7 +39,7 @@ export default function HomePage() {
     },
     telephone: '+919619439243',
     email: 'rcrenterprises786@gmail.com',
-    url: 'https://rcrenterprises.in',
+    url: SITE_URL,
     priceRange: '₹₹',
     areaServed: [
       'Mumbai', 'Churchgate', 'Marine Lines', 'Charni Road', 'Grant Road', 'Mumbai Central', 'Mahalaxmi', 'Lower Parel', 'Prabhadevi', 'Dadar', 'Mahim', 'Bandra', 'Khar', 'Santacruz', 'Vile Parle', 'Andheri', 'Jogeshwari', 'Goregaon', 'Malad', 'Kandivali', 'Borivali', 'Dahisar', 'Mira Road', 'Bhayandar', 'Naigaon', 'Vasai', 'Nalasopara', 'Virar', 'Palghar', 'Boisar',
@@ -55,6 +61,7 @@ export default function HomePage() {
       <ServicesSection />
       <WhyChooseUs />
       <ProjectsSection />
+      <DeveloperPartnerSection />
       <TestimonialsSection />
       <GalleryPreview />
       <ProcessSection />

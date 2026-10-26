@@ -33,6 +33,12 @@ async function getClients() {
   }
 }
 
+function getInitials(name: string) {
+  const parts = name.replace(/\b(Pvt|Ltd|LLP|Co)\b\.?/gi, '').trim().split(/\s+/).filter(Boolean)
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase()
+  return parts[0].slice(0, 2).toUpperCase()
+}
+
 export default async function ClientsSection() {
   const clients = await getClients()
 
@@ -57,30 +63,38 @@ export default async function ClientsSection() {
         {/* The scrolling track */}
         <div className="flex animate-marquee min-w-max gap-4 md:gap-6 px-4 md:px-6">
           {/* We render the list twice to create the infinite loop effect seamlessly */}
-          {[...clients, ...clients].map((client: any, i: number) => (
-            <div 
-              key={`${client._id}-${i}`} 
-              className="flex-shrink-0 flex items-center justify-center w-auto h-auto min-w-[120px] md:min-w-[160px] relative bg-white rounded-2xl shadow-[0_4px_15px_-5px_rgba(0,0,0,0.05)] border border-slate-100 px-6 py-4 md:px-8 md:py-6 group hover:shadow-[0_15px_30px_-10px_rgba(192,30,46,0.15)] hover:border-brandRed/30 transition-all duration-500 hover:-translate-y-1"
-            >
-              {client.website ? (
-                <a href={client.website} target="_blank" rel="noopener noreferrer" className="block relative group-hover:scale-105 transition-transform duration-500" title={client.name}>
-                  <img 
-                    src={client.logo} 
-                    alt={client.name} 
-                    className="h-10 md:h-14 w-auto object-contain drop-shadow-sm" 
-                  />
-                </a>
-              ) : (
-                <div className="relative group-hover:scale-105 transition-transform duration-500" title={client.name}>
-                  <img 
-                    src={client.logo} 
-                    alt={client.name} 
-                    className="h-10 md:h-14 w-auto object-contain drop-shadow-sm" 
-                  />
+          {[...clients, ...clients].map((client: any, i: number) => {
+            const initials = getInitials(client.name)
+            return (
+              <div 
+                key={`${client._id}-${i}`} 
+                className="flex-shrink-0 flex items-center gap-3.5 bg-white rounded-2xl shadow-[0_4px_15px_-5px_rgba(0,0,0,0.06)] border border-slate-200/80 px-6 py-4 group hover:shadow-[0_15px_30px_-10px_rgba(192,30,46,0.2)] hover:border-brandRed transition-all duration-300 hover:-translate-y-1"
+              >
+                {client.logo ? (
+                  <div className="h-10 w-24 flex items-center justify-center flex-shrink-0 p-1">
+                    <img 
+                      src={client.logo} 
+                      alt={client.name} 
+                      className="max-h-9 max-w-full object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300" 
+                    />
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 rounded-xl bg-slate-900 text-white font-display font-black text-sm flex items-center justify-center flex-shrink-0 group-hover:bg-brandRed transition-colors shadow-sm">
+                    {initials}
+                  </div>
+                )}
+                <div className="flex flex-col text-left">
+                  <span className="font-display font-bold text-slate-900 text-sm md:text-base group-hover:text-brandRed transition-colors whitespace-nowrap">
+                    {client.name}
+                  </span>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-600 font-bold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                    Corporate Client
+                  </span>
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            )
+          })}
         </div>
       </div>
 

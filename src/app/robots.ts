@@ -1,11 +1,11 @@
 import { MetadataRoute } from 'next'
+import { SITE_URL } from '@/constants'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://rcrenterprises.in'
   return {
     rules: [
       { userAgent: '*', allow: '/', disallow: ['/admin/', '/api/'] },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }

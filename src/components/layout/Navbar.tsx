@@ -5,8 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Phone, ChevronRight, HardHat } from 'lucide-react'
-import { NAV_ITEMS } from '@/constants'
+import { Menu, X, Phone, ChevronRight, HardHat, MapPin, Instagram, Facebook } from 'lucide-react'
+import { NAV_ITEMS, COMPANY_INFO } from '@/constants'
 import { cn } from '@/utils'
 import { useTranslation } from '@/hooks/useTranslation'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
@@ -49,16 +49,54 @@ export default function Navbar() {
       >
         {/* Top bar */}
         <div className={cn('border-b border-slate-200/50 transition-all duration-300 bg-slate-50', scrolled ? 'h-0 overflow-hidden opacity-0' : 'opacity-100')}>
-          <div className="container-custom flex items-center justify-end gap-6 py-2">
-            <a href="tel:9619439243" className="flex items-center gap-1.5 text-[13px] font-semibold text-slate-700 hover:text-brandRed transition-colors">
-              <Phone size={13} />
-              <span>9619439243</span>
-            </a>
-            <a href="mailto:rcrenterprises786@gmail.com" className="text-[13px] font-semibold text-slate-700 hover:text-brandRed transition-colors hidden sm:block">
-              rcrenterprises786@gmail.com
-            </a>
-            <div className="hidden lg:block">
-              <LanguageSwitcher />
+          <div className="container-custom flex items-center justify-between gap-4 py-2">
+            <Link 
+              href="/locations" 
+              className="flex items-center gap-1.5 text-[11px] sm:text-[13px] font-semibold text-slate-700 hover:text-brandRed transition-colors"
+              title="View all operational areas across Mumbai & Pune"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block flex-shrink-0" />
+              <MapPin size={13} className="text-brandRed flex-shrink-0" />
+              <span>
+                Serving: <strong className="font-bold text-slate-900">Mumbai (All Locations)</strong> & <strong className="font-bold text-slate-900">Pune</strong>
+              </span>
+            </Link>
+
+            <div className="flex items-center gap-3 sm:gap-5">
+              {/* Social icons */}
+              <div className="hidden sm:flex items-center gap-2 border-r border-slate-200/80 pr-3">
+                <a
+                  href={COMPANY_INFO.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-6 h-6 rounded-md hover:bg-pink-50 text-slate-500 hover:text-pink-600 flex items-center justify-center transition-colors"
+                  title="Follow RCR Enterprises on Instagram (@rcr_enterprises)"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={14} />
+                </a>
+                <a
+                  href={COMPANY_INFO.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-6 h-6 rounded-md hover:bg-blue-50 text-slate-500 hover:text-blue-600 flex items-center justify-center transition-colors"
+                  title="Follow RCR Enterprises on Facebook"
+                  aria-label="Facebook"
+                >
+                  <Facebook size={14} />
+                </a>
+              </div>
+
+              <a href="tel:9619439243" className="flex items-center gap-1.5 text-[12px] sm:text-[13px] font-semibold text-slate-700 hover:text-brandRed transition-colors">
+                <Phone size={13} />
+                <span>9619439243</span>
+              </a>
+              <a href="mailto:rcrenterprises786@gmail.com" className="text-[13px] font-semibold text-slate-700 hover:text-brandRed transition-colors hidden md:block">
+                rcrenterprises786@gmail.com
+              </a>
+              <div className="hidden lg:block">
+                <LanguageSwitcher />
+              </div>
             </div>
           </div>
         </div>
@@ -105,10 +143,13 @@ export default function Navbar() {
               <div className={cn('transition-all duration-300', scrolled ? 'opacity-100' : 'opacity-0 pointer-events-none w-0')}>
                 <LanguageSwitcher />
               </div>
-              <Link href="/contact" className="btn-primary text-xs px-5 py-2.5">
+              <button 
+                onClick={() => window.dispatchEvent(new CustomEvent('open-lead-popup'))} 
+                className="btn-primary text-xs px-5 py-2.5 cursor-pointer"
+              >
                 {t('nav.getQuote')}
                 <ChevronRight size={14} />
-              </Link>
+              </button>
             </div>
 
             {/* Mobile Toggle */}
@@ -173,13 +214,41 @@ export default function Navbar() {
                 )
               })}
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-4 pt-4 border-t border-slate-200">
-                <Link href="/contact" className="btn-primary w-full justify-center">
+                <button 
+                  onClick={() => {
+                    setMobileOpen(false)
+                    window.dispatchEvent(new CustomEvent('open-lead-popup'))
+                  }} 
+                  className="btn-primary w-full justify-center cursor-pointer"
+                >
                   {t('nav.getQuote')}
-                </Link>
+                </button>
                 <a href="tel:9619439243" className="flex items-center justify-center gap-2 mt-3 text-sm text-slate-500 hover:text-brandRed">
                   <Phone size={14} className="text-brandRed" />
                   9619439243
                 </a>
+                <div className="flex items-center justify-center gap-3 mt-3 pt-3 border-t border-slate-100">
+                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Follow Us:</span>
+                  <a
+                    href={COMPANY_INFO.social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-pink-600"
+                  >
+                    <Instagram size={14} />
+                    <span>Instagram</span>
+                  </a>
+                  <span className="text-slate-300">•</span>
+                  <a
+                    href={COMPANY_INFO.social.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-blue-600"
+                  >
+                    <Facebook size={14} />
+                    <span>Facebook</span>
+                  </a>
+                </div>
               </motion.div>
             </div>
           </motion.div>

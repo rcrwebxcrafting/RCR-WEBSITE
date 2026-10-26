@@ -90,12 +90,16 @@ export default function AdminClientsPage() {
                 {clients.map((client) => (
                   <tr key={client._id} className="hover:bg-slate-50 transition-colors">
                     <td className="p-4">
-                      <div className="relative w-16 h-16 rounded-lg bg-white border border-slate-200 p-2 flex items-center justify-center">
-                        <img 
-                          src={client.logo} 
-                          alt={client.name} 
-                          className="w-12 h-12 object-contain max-h-full max-w-full"
-                        />
+                      <div className="relative w-16 h-16 rounded-lg bg-slate-50 border border-slate-200 p-2 flex items-center justify-center text-center">
+                        {client.logo ? (
+                          <img 
+                            src={client.logo} 
+                            alt={client.name} 
+                            className="w-12 h-12 object-contain max-h-full max-w-full"
+                          />
+                        ) : (
+                          <span className="text-[10px] font-bold text-slate-400 leading-tight">No Logo</span>
+                        )}
                       </div>
                     </td>
                     <td className="p-4 font-medium text-slate-900">{client.name}</td>

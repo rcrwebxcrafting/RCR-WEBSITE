@@ -3,15 +3,32 @@ import { notFound } from 'next/navigation'
 import { CONSTRUCTION_IMAGES } from '@/utils'
 import ProjectDetailClient from './ProjectDetailClient'
 
+import connectDB from '@/lib/mongodb'
+import Project from '@/models/Project'
+
 interface Props { params: Promise<{ slug: string }> }
 
 async function getProject(slug: string) {
   try {
-    const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-    const res = await fetch(`${base}/api/projects/${slug}`, { next: { tags: ['projects'] } })
-    if (res.ok) { const d = await res.json(); if (d.success) return d.data }
-  } catch {}
+    await connectDB()
+    const project = await Project.findOne({ slug, isActive: true }).lean()
+    if (project) {
+      return JSON.parse(JSON.stringify(project))
+    }
+  } catch (err) {
+    console.error('Failed to get project:', err)
+  }
   return null
+}
+
+export async function generateStaticParams() {
+  try {
+    await connectDB()
+    const projects = await Project.find({ isActive: true }).select('slug').lean()
+    return projects.map((p: any) => ({ slug: p.slug }))
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -21,6 +38,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${project.title} | RCR ENTERPRISES`,
     description: project.shortDescription,
+    alternates: {
+      canonical: `/projects/${slug}`,
+    },
+    openGraph: {
+      title: `${project.title} | RCR ENTERPRISES`,
+      description: project.shortDescription,
+      url: `/projects/${slug}`,
+    },
   }
 }
 

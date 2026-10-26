@@ -129,6 +129,41 @@ export default function HeroSection() {
               </div>
             ))}
           </motion.div>
+
+          {/* Major Developer References Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="w-full pt-6 mt-2 border-t border-white/15"
+          >
+            <p className="text-[11px] sm:text-xs uppercase font-mono tracking-[0.25em] text-slate-300 font-semibold mb-3.5 text-center flex items-center justify-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+              Contracting Partner For India&apos;s Leading Developers &amp; Mega Projects
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 text-xs sm:text-[13px] font-bold">
+              {[
+                { name: 'Shapoorji Pallonji', detail: 'CIDCO 7 Towers' },
+                { name: 'Kalpataru Group', detail: 'Park Riviera Panvel' },
+                { name: 'Dosti Realty', detail: 'Charm Tower Kalher' },
+                { name: 'Marathon Group', detail: 'NeoSkies Bhandup' },
+                { name: 'Inderjit Mehta Co', detail: 'CGS Colony' },
+                { name: 'Sshivaay Constructions', detail: '3 Towers Nerul' },
+                { name: 'Sequence Buildcon', detail: 'Commercial RCC' },
+                { name: 'Indiatec', detail: 'Borivali Tower' },
+              ].map(({ name, detail }) => (
+                <div
+                  key={name}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all text-white shadow-sm"
+                >
+                  <span className="text-white font-bold">{name}</span>
+                  <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-brandRed/80 text-white font-semibold">
+                    {detail}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
 
       </div>

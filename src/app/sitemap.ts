@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next'
-import { SERVICES_LIST, TARGET_LOCATIONS } from '@/constants'
+import { SERVICES_LIST, TARGET_LOCATIONS, SITE_URL } from '@/constants'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://rcrenterprises.in'
+  const baseUrl = SITE_URL
   const now = new Date()
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -11,7 +11,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/services`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${baseUrl}/projects`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${baseUrl}/gallery`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${baseUrl}/clients`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/blogs`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${baseUrl}/locations`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/sitemap`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${baseUrl}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ]
@@ -61,5 +65,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Failed to fetch blogs for sitemap:', error)
   }
 
-  return [...staticPages, ...servicePages, ...locationPages, ...locationServicePages, ...blogPages]
+  // Fetch projects for sitemap
+  let projectPages: MetadataRoute.Sitemap = []
+  try {
+    const connectDB = (await import('@/lib/mongodb')).default
+    const Project = (await import('@/models/Project')).default
+
+    await connectDB()
+    const projects = await Project.find({}).select('slug updatedAt createdAt')
+
+    projectPages = projects.map((project: any) => ({
+      url: `${baseUrl}/projects/${project.slug}`,
+      lastModified: new Date(project.updatedAt || project.createdAt || new Date()),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    }))
+  } catch (error) {
+    console.error('Failed to fetch projects for sitemap:', error)
+  }
+
+  return [...staticPages, ...servicePages, ...locationPages, ...locationServicePages, ...blogPages, ...projectPages]
 }

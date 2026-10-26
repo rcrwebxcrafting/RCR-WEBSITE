@@ -7,6 +7,9 @@ import { Clock, Award, Shield, MapPin } from 'lucide-react'
 export const metadata: Metadata = {
   title: 'Contact RCR ENTERPRISES - Get Free Quote',
   description: 'Contact RCR ENTERPRISES for free RCC construction consultation. Call 9619439243 or visit our office in Virar East, Maharashtra.',
+  alternates: {
+    canonical: '/contact',
+  },
 }
 
 export default function ContactPage() {
