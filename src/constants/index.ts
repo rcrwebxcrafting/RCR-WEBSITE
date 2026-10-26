@@ -1,8 +1,10 @@
 import { NavItem } from '@/types'
 
-export const SITE_URL = process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes('localhost')
+const rawSiteUrl = process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes('localhost')
   ? process.env.NEXT_PUBLIC_APP_URL
   : 'https://rcrenterprises.co.in'
+
+export const SITE_URL = rawSiteUrl.replace(/\/+$/, '')
 
 export const COMPANY_INFO = {
   name: 'RCR ENTERPRISES',
