@@ -52,6 +52,7 @@ export default function LeadPopupModal() {
   // Form State
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const [serviceRequired, setServiceRequired] = useState(SERVICES_OPTIONS[0])
   const [location, setLocation] = useState(LOCATION_OPTIONS[0])
   const [message, setMessage] = useState('')
@@ -87,13 +88,18 @@ export default function LeadPopupModal() {
     e.preventDefault()
     setErrorMsg('')
 
-    if (!fullName.trim() || !phone.trim()) {
-      setErrorMsg('Please enter your Name and Mobile Number.')
+    if (!fullName.trim() || !phone.trim() || !email.trim()) {
+      setErrorMsg('Please enter your Name, Mobile, and Email address.')
       return
     }
 
     if (phone.replace(/\D/g, '').length < 10) {
       setErrorMsg('Please enter a valid 10-digit mobile number.')
+      return
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setErrorMsg('Please enter a valid email address to receive estimation & confirmation.')
       return
     }
 
@@ -106,6 +112,7 @@ export default function LeadPopupModal() {
         body: JSON.stringify({
           fullName: fullName.trim(),
           phone: phone.trim(),
+          email: email.trim(),
           serviceRequired,
           location,
           message: message.trim() || `Quote inquiry for ${serviceRequired} in ${location}`
@@ -254,6 +261,40 @@ export default function LeadPopupModal() {
                         </div>
                       </div>
 
+                      {/* Email & Location in 2-cols */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                        <div>
+                          <label className="block text-[10px] sm:text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-0.5 sm:mb-1">
+                            Email Address (For Quote Copy) *
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="e.g. client@gmail.com"
+                            className="w-full px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-slate-200 focus:border-brandRed focus:ring-2 focus:ring-brandRed/20 text-slate-900 text-xs sm:text-sm outline-none transition-all"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[10px] sm:text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-0.5 sm:mb-1">
+                            Project Location *
+                          </label>
+                          <select
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            className="w-full px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-slate-200 focus:border-brandRed focus:ring-2 focus:ring-brandRed/20 text-slate-900 text-xs sm:text-sm outline-none transition-all bg-white"
+                          >
+                            {LOCATION_OPTIONS.map((loc) => (
+                              <option key={loc} value={loc}>
+                                {loc}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
                       {/* Service Required */}
                       <div>
                         <label className="block text-[10px] sm:text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-0.5 sm:mb-1">
@@ -267,24 +308,6 @@ export default function LeadPopupModal() {
                           {SERVICES_OPTIONS.map((opt) => (
                             <option key={opt} value={opt}>
                               {opt}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {/* Project Location */}
-                      <div>
-                        <label className="block text-[10px] sm:text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-0.5 sm:mb-1">
-                          Project Location *
-                        </label>
-                        <select
-                          value={location}
-                          onChange={(e) => setLocation(e.target.value)}
-                          className="w-full px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-slate-200 focus:border-brandRed focus:ring-2 focus:ring-brandRed/20 text-slate-900 text-xs sm:text-sm outline-none transition-all bg-white"
-                        >
-                          {LOCATION_OPTIONS.map((loc) => (
-                            <option key={loc} value={loc}>
-                              {loc}
                             </option>
                           ))}
                         </select>
@@ -361,7 +384,7 @@ export default function LeadPopupModal() {
 
                     <div className="mt-2.5 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-emerald-50 border border-emerald-200 text-left space-y-1.5 sm:space-y-2">
                       <p className="text-xs sm:text-sm font-semibold text-emerald-950 leading-relaxed">
-                        ✅ <strong>Your consultation request has been successfully submitted to RCR Enterprises!</strong>
+                        ✅ <strong>Your consultation request has been submitted &amp; confirmation email dispatched to your inbox!</strong>
                       </p>
                       <p className="text-[11px] sm:text-xs text-emerald-800 leading-relaxed">
                         Our dedicated <strong>RCR Team will connect with you as soon as possible</strong> to review your project specifications, provide an accurate estimate, and schedule a complimentary on-site visit.
@@ -373,6 +396,7 @@ export default function LeadPopupModal() {
                       <div><strong>Requested Service:</strong> <span className="text-slate-900 font-semibold">{serviceRequired}</span></div>
                       <div><strong>Project Location:</strong> <span className="text-slate-900 font-semibold">{location}</span></div>
                       <div><strong>Contact Mobile:</strong> <span className="text-slate-900 font-semibold">+91 {phone}</span></div>
+                      <div><strong>Email Confirmation Sent To:</strong> <span className="text-emerald-700 font-semibold break-all">{email}</span></div>
                     </div>
 
                     {/* Action 1: Instant WhatsApp Connect */}
