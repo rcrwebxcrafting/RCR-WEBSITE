@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
 }
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600 // Cache blogs page for 1 hour on Edge CDN
 
 const MOCK_BLOGS = [
   {

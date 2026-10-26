@@ -139,6 +139,10 @@ export async function generateMetadata({ params }: ServiceLocationPageProps): Pr
   }
 }
 
+export const dynamic = 'force-static'
+export const dynamicParams = false
+export const revalidate = 604800 // Cache for 7 days on Edge CDN
+
 export async function generateStaticParams() {
   const params: Array<{ city: string; service: string }> = []
   TARGET_LOCATIONS.forEach((loc) => {

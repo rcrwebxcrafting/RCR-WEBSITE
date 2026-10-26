@@ -73,6 +73,8 @@ async function getRelatedBlogs(currentSlug: string) {
   }
 }
 
+export const revalidate = 86400 // Cache blog post for 24 hours on Edge CDN
+
 type Props = {
   params: Promise<{ slug: string }>
 }

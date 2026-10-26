@@ -37,6 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+export const revalidate = 604800 // Cache for 7 days on Edge CDN
+
 export async function generateStaticParams() {
   await connectDB()
   const services = await Service.find({ isActive: true }).select('slug').lean()
