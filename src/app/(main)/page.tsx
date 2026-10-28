@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
 }
 
-export const revalidate = 86400 // Cache homepage on Vercel Edge CDN for 24 hours
+export const dynamic = 'force-static'
 
 export default function HomePage() {
   const jsonLd = {

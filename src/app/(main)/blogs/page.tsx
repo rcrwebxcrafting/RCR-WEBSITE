@@ -12,9 +12,8 @@ export const metadata: Metadata = {
     canonical: '/blogs',
   },
 }
-
-export const revalidate = 3600 // Cache blogs page for 1 hour on Edge CDN
-
+export const dynamic = 'force-static'
+export const dynamicParams = true
 const MOCK_BLOGS = [
   {
     _id: 'mock-1',
@@ -55,16 +54,18 @@ const MOCK_BLOGS = [
 ]
 
 async function getBlogs() {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
   try {
-    const res = await fetch(`${baseUrl}/api/blogs?publishedOnly=true`, { next: { tags: ['blogs'] } })
-    if (!res.ok) throw new Error('Fetch failed')
-    const json = await res.json()
-    return json.success && json.data.length > 0 ? json.data : MOCK_BLOGS
+    const connectDB = (await import('@/lib/mongodb')).default
+    const Blog = (await import('@/models/Blog')).default
+    await connectDB()
+    const blogs = await Blog.find({ isPublished: true }).sort({ publishedAt: -1 }).lean()
+    if (blogs && blogs.length > 0) {
+      return JSON.parse(JSON.stringify(blogs))
+    }
   } catch (error) {
     console.warn('Failed to fetch blogs from database, using mock data:', error)
-    return MOCK_BLOGS
   }
+  return MOCK_BLOGS
 }
 
 export default async function BlogsPage() {

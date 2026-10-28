@@ -46,34 +46,50 @@ const MOCK_BLOGS = [
 ]
 
 async function getBlog(slug: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
   try {
-    const res = await fetch(`${baseUrl}/api/blogs/${slug}`, { next: { tags: ['blogs'] } })
-    if (!res.ok) throw new Error('Fetch failed')
-    const json = await res.json()
-    return (json.success && json.data) ? json.data : MOCK_BLOGS.find(b => b.slug === slug) || null
+    const connectDB = (await import('@/lib/mongodb')).default
+    const Blog = (await import('@/models/Blog')).default
+    await connectDB()
+    const blog = await Blog.findOne({ slug, isPublished: true }).lean()
+    if (blog) return JSON.parse(JSON.stringify(blog))
   } catch (error) {
-    console.warn('Failed to fetch blog, using mock data fallback:', error)
-    return MOCK_BLOGS.find(b => b.slug === slug) || null
+    console.warn('Failed to fetch blog from database, using mock data fallback:', error)
   }
+  return MOCK_BLOGS.find(b => b.slug === slug) || null
 }
 
 async function getRelatedBlogs(currentSlug: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
   try {
-    const res = await fetch(`${baseUrl}/api/blogs?limit=4&publishedOnly=true`, { next: { tags: ['blogs'] } })
-    if (!res.ok) throw new Error('Fetch failed')
-    const json = await res.json()
-    if (!json.success || !json.data) throw new Error('No data')
-    // Filter out current and return max 3
-    return json.data.filter((b: any) => b.slug !== currentSlug).slice(0, 3)
+    const connectDB = (await import('@/lib/mongodb')).default
+    const Blog = (await import('@/models/Blog')).default
+    await connectDB()
+    const blogs = await Blog.find({ slug: { $ne: currentSlug }, isPublished: true }).limit(3).lean()
+    if (blogs && blogs.length > 0) {
+      return JSON.parse(JSON.stringify(blogs))
+    }
   } catch (error) {
     console.warn('Failed to fetch related blogs, using mock data:', error)
-    return MOCK_BLOGS.filter(b => b.slug !== currentSlug).slice(0, 3)
   }
+  return MOCK_BLOGS.filter(b => b.slug !== currentSlug).slice(0, 3)
 }
 
-export const revalidate = 86400 // Cache blog post for 24 hours on Edge CDN
+export const dynamic = 'force-static'
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  try {
+    const connectDB = (await import('@/lib/mongodb')).default
+    const Blog = (await import('@/models/Blog')).default
+    await connectDB()
+    const blogs = await Blog.find({ isPublished: true }).select('slug').lean()
+    if (blogs && blogs.length > 0) {
+      return blogs.map((b: any) => ({ slug: b.slug }))
+    }
+  } catch {
+    // fallback
+  }
+  return MOCK_BLOGS.map((b) => ({ slug: b.slug }))
+}
 
 type Props = {
   params: Promise<{ slug: string }>

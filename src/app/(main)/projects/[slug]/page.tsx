@@ -20,9 +20,8 @@ async function getProject(slug: string) {
   }
   return null
 }
-
-export const revalidate = 86400 // Cache project page for 24 hours on Edge CDN
-
+export const dynamic = 'force-static'
+export const dynamicParams = true
 export async function generateStaticParams() {
   try {
     await connectDB()

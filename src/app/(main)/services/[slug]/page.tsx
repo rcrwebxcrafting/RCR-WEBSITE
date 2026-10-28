@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CheckCircle, ArrowRight, Phone, ChevronDown } from 'lucide-react'
-import { TARGET_LOCATIONS } from '@/constants'
+import { TARGET_LOCATIONS, SERVICES_LIST } from '@/constants'
 import PageHero from '@/components/shared/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import connectDB from '@/lib/mongodb'
@@ -14,9 +14,14 @@ interface Props {
 }
 
 async function getService(slug: string) {
-  await connectDB()
-  const service = await Service.findOne({ slug, isActive: true }).lean()
-  return (service as any) || null
+  try {
+    await connectDB()
+    const service = await Service.findOne({ slug, isActive: true }).lean()
+    if (service) return service as any
+  } catch {
+    // Database connection fallback
+  }
+  return (SERVICES_LIST.find(s => s.slug === slug) as any) || null
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -37,12 +42,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export const revalidate = 604800 // Cache for 7 days on Edge CDN
-
 export async function generateStaticParams() {
-  await connectDB()
-  const services = await Service.find({ isActive: true }).select('slug').lean()
-  return services.map((s: any) => ({ slug: s.slug }))
+  try {
+    await connectDB()
+    const services = await Service.find({ isActive: true }).select('slug').lean()
+    if (services && services.length > 0) {
+      return services.map((s: any) => ({ slug: s.slug }))
+    }
+  } catch {
+    // Fallback to static constants list
+  }
+  return SERVICES_LIST.map((s) => ({ slug: s.slug }))
 }
 
 const DEFAULT_BENEFITS = [
