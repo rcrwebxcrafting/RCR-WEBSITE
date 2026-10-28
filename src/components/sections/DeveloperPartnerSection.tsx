@@ -13,8 +13,8 @@ export default function DeveloperPartnerSection() {
     },
     {
       icon: Building2,
-      title: 'Multi-Tower Track Record',
-      desc: 'Proven delivery on landmark high-rise projects including Shapoorji Pallonji (CIDCO 7 Towers), Kalpataru Panvel, and Dosti Greater Thane.',
+      title: '100+ Buildings (7 to 50 Floors)',
+      desc: 'Proven delivery on 100+ multi-storey towers from 7 floors up to 50-storey high-rises including Shapoorji Pallonji (CIDCO 7 Towers), Kalpataru & Marathon.',
     },
     {
       icon: ShieldCheck,

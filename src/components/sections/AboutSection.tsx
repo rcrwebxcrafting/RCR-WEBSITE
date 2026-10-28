@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CheckCircle, ArrowRight } from 'lucide-react'
+import { CheckCircle, ArrowRight, Building2, TrendingUp, Home, Award } from 'lucide-react'
 import { useInView } from 'react-intersection-observer'
 import CountUp from 'react-countup'
 import { STATS, SERVICES_LIST } from '@/constants'
@@ -126,27 +126,64 @@ export default function AboutSection() {
           </motion.div>
         </div>
 
-        {/* Stats row */}
-        <div ref={ref} className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-16 lg:mt-24">
-          {STATS.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative text-center p-6 md:p-8 rounded-3xl border border-slate-100 bg-white hover:border-brandRed/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(192,30,46,0.15)] group overflow-hidden"
-            >
-              <div className="absolute top-0 left-0 w-full h-1.5 bg-brandRed scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-brandRed/5 rounded-full blur-2xl group-hover:bg-brandRed/10 transition-colors duration-500" />
-              
-              <div className="text-4xl lg:text-6xl font-display font-black text-slate-900 mb-2 md:mb-3 group-hover:text-brandRed transition-colors duration-500 tracking-tighter">
-                {inView ? <CountUp end={parseInt(stat.value)} duration={2.5 + i * 0.2} /> : '0'}
-                <span className="text-brandRed group-hover:text-slate-900 transition-colors duration-500">{stat.suffix}</span>
-              </div>
-              <div className="text-xs md:text-sm text-slate-500 font-bold uppercase tracking-widest">{t(STAT_KEYS[i])}</div>
-            </motion.div>
-          ))}
+        {/* Sleek Ultra-Premium Stats row */}
+        <div ref={ref} className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 md:gap-5 mt-14 lg:mt-20">
+          {STATS.map((stat, i) => {
+            const icons = [Building2, TrendingUp, Home, Award]
+            const Icon = icons[i] || Building2
+            const accent = [
+              { bg: 'bg-red-50 text-brandRed border-red-100', bar: 'from-brandRed to-red-500' },
+              { bg: 'bg-amber-50 text-amber-600 border-amber-100', bar: 'from-amber-500 to-orange-500' },
+              { bg: 'bg-emerald-50 text-emerald-600 border-emerald-100', bar: 'from-emerald-500 to-teal-500' },
+              { bg: 'bg-blue-50 text-blue-600 border-blue-100', bar: 'from-blue-500 to-indigo-500' },
+            ][i]
+
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                className="relative text-left p-5 sm:p-6 rounded-2xl border border-slate-200/80 bg-white hover:border-brandRed/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-8px_rgba(192,30,46,0.12)] group overflow-hidden"
+              >
+                {/* Top elegant gradient accent */}
+                <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${accent.bar} scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`} />
+
+                {/* Top Row: Micro Icon & Sequence */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center border ${accent.bg} transition-transform duration-300 group-hover:scale-110 shadow-xs`}>
+                    <Icon size={16} />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 group-hover:text-slate-600 transition-colors uppercase">
+                    0{i + 1}
+                  </span>
+                </div>
+
+                {/* Number & Suffix */}
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-tight group-hover:text-brandRed transition-colors duration-300">
+                    {inView ? <CountUp end={parseInt(stat.value)} duration={2.2 + i * 0.15} /> : '0'}
+                  </span>
+                  <span className="text-lg sm:text-xl font-display font-extrabold text-brandRed">
+                    {stat.suffix}
+                  </span>
+                </div>
+
+                {/* Label */}
+                <div className="text-xs sm:text-[13px] font-bold text-slate-900 tracking-tight leading-snug group-hover:text-brandRed transition-colors">
+                  {t(STAT_KEYS[i])}
+                </div>
+
+                {/* Subtext Context */}
+                {stat.subtext && (
+                  <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1 leading-tight line-clamp-1">
+                    {stat.subtext}
+                  </p>
+                )}
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>

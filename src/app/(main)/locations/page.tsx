@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { MapPin, Building2 } from 'lucide-react'
-import { TARGET_LOCATIONS } from '@/constants'
+import { MapPin, Building2, ArrowRight } from 'lucide-react'
+import { TARGET_LOCATIONS, SERVICES_LIST } from '@/constants'
 import PageHero from '@/components/shared/PageHero'
 import CTASection from '@/components/sections/CTASection'
 
@@ -85,6 +85,56 @@ export default function LocationsPage() {
         subtitle="From Mumbai (All Locations & Suburbs) to Pune, Thane, Navi Mumbai, and Palghar, our expert civil and RCC contractors are available across all regions for turnkey construction."
         backgroundImage="/images/hero_construction_bg.png"
       />
+
+      {/* Services in Mumbai & Pune Quick Grid */}
+      <section className="py-16 bg-white border-b border-slate-200">
+        <div className="container-custom max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="text-xs font-mono tracking-widest text-brandRed uppercase font-semibold mb-2 block">
+              100% Service Coverage Across All Locations
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
+              All 11 Construction Services Available Across <span className="text-brandRed">Mumbai & Pune</span>
+            </h2>
+            <p className="text-slate-600 text-sm mt-3">
+              RCR Enterprises provides complete turnkey civil engineering, RCC shuttering, and slab casting in every ward of Mumbai and every suburb of Pune. Select any service to explore:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {SERVICES_LIST.map((service) => (
+              <div 
+                key={service.id} 
+                className="bg-slate-50 border border-slate-200 hover:border-brandRed/40 p-4 rounded-2xl hover:shadow-md transition-all flex flex-col justify-between group"
+              >
+                <div>
+                  <h3 className="font-display font-bold text-sm text-slate-900 group-hover:text-brandRed transition-colors mb-1.5">
+                    {service.title}
+                  </h3>
+                  <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-3">
+                    {service.shortDescription}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 pt-2 border-t border-slate-200/60 text-xs font-semibold">
+                  <Link 
+                    href={`/locations/mumbai/${service.slug}`} 
+                    className="text-brandRed hover:text-slate-900 transition-colors flex items-center gap-1 hover:underline"
+                  >
+                    Mumbai Hub <ArrowRight size={11} />
+                  </Link>
+                  <span className="text-slate-300">•</span>
+                  <Link 
+                    href={`/locations/pune/${service.slug}`} 
+                    className="text-brandRed hover:text-slate-900 transition-colors flex items-center gap-1 hover:underline"
+                  >
+                    Pune Hub <ArrowRight size={11} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="py-24 relative overflow-hidden bg-white">
         {/* Background Decorative */}

@@ -12,6 +12,17 @@ import { useTranslation } from '@/hooks/useTranslation'
 
 const STAT_KEYS = ['stats.projectsCompleted', 'stats.happyClients', 'stats.skilledWorkforce', 'stats.yearsOfExperience']
 
+const DEVELOPER_PARTNERS = [
+  { name: 'Shapoorji Pallonji', detail: 'CIDCO 7 Towers' },
+  { name: 'Kalpataru Group', detail: 'Park Riviera Panvel' },
+  { name: 'Dosti Realty', detail: 'Charm Tower Kalher' },
+  { name: 'Marathon Group', detail: 'NeoSkies Bhandup' },
+  { name: 'Inderjit Mehta Co', detail: 'CGS Colony' },
+  { name: 'Sshivaay Constructions', detail: '3 Towers Nerul' },
+  { name: 'Sequence Buildcon', detail: 'Commercial RCC' },
+  { name: 'Indiatec', detail: 'Borivali Tower' },
+]
+
 export default function HeroSection() {
   const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.1 })
   const [particles, setParticles] = useState<any[]>([])
@@ -55,8 +66,8 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-grid-pattern opacity-10" />
 
       {/* Content */}
-      <div className="relative z-10 container-custom pt-32 sm:pt-40 lg:pt-48 pb-20 flex-grow flex flex-col justify-center items-center text-center">
-        <div className="max-w-4xl flex flex-col items-center">
+      <div className="relative z-10 container-custom w-full max-w-full overflow-hidden pt-32 sm:pt-40 lg:pt-48 pb-16 flex-grow flex flex-col justify-center items-center text-center">
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center min-w-0">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -135,29 +146,22 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="w-full pt-6 mt-2 border-t border-white/15"
+            className="w-full max-w-3xl mx-auto pt-5 mt-2 border-t border-white/15"
           >
-            <p className="text-[11px] sm:text-xs uppercase font-mono tracking-[0.25em] text-slate-300 font-semibold mb-3.5 text-center flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
-              Contracting Partner For India&apos;s Leading Developers &amp; Mega Projects
+            <p className="text-[10px] sm:text-xs uppercase font-mono tracking-[0.2em] text-slate-300 font-semibold mb-3.5 text-center flex items-center justify-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
+              Contracting Partner For India&apos;s Leading Developers
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 text-xs sm:text-[13px] font-bold">
-              {[
-                { name: 'Shapoorji Pallonji', detail: 'CIDCO 7 Towers' },
-                { name: 'Kalpataru Group', detail: 'Park Riviera Panvel' },
-                { name: 'Dosti Realty', detail: 'Charm Tower Kalher' },
-                { name: 'Marathon Group', detail: 'NeoSkies Bhandup' },
-                { name: 'Inderjit Mehta Co', detail: 'CGS Colony' },
-                { name: 'Sshivaay Constructions', detail: '3 Towers Nerul' },
-                { name: 'Sequence Buildcon', detail: 'Commercial RCC' },
-                { name: 'Indiatec', detail: 'Borivali Tower' },
-              ].map(({ name, detail }) => (
+            
+            {/* Perfectly proportioned 2-column grid on mobile, 4-column on desktop */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 w-full">
+              {DEVELOPER_PARTNERS.map(({ name, detail }) => (
                 <div
                   key={name}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all text-white shadow-sm"
+                  className="flex flex-col items-center justify-center py-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 backdrop-blur-md transition-all text-white shadow-sm text-center group"
                 >
-                  <span className="text-white font-bold">{name}</span>
-                  <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-brandRed/80 text-white font-semibold">
+                  <span className="text-white font-bold text-xs truncate max-w-full leading-tight">{name}</span>
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-red-300 font-semibold mt-0.5 truncate max-w-full">
                     {detail}
                   </span>
                 </div>

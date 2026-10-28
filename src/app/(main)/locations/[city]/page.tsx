@@ -376,7 +376,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {SERVICES_LIST.slice(0, 6).map((service) => (
+              {SERVICES_LIST.map((service) => (
                 <Link key={service.id} href={`/locations/${location.slug}/${service.slug}`} className="service-card group block h-full">
                   <div className="relative w-full h-48 rounded-xl overflow-hidden mb-5 border border-slate-200 bg-slate-50">
                     <Image src={service.image} alt={service.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" sizes="(max-width: 768px) 100vw, 33vw" />

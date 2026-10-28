@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, Calendar, Search, ArrowRight } from 'lucide-react'
+import { MapPin, Calendar, Search, ArrowRight, Building2, Layers, TrendingUp, Home } from 'lucide-react'
 import { cn, formatDateShort, getStatusColor, CONSTRUCTION_IMAGES } from '@/utils'
 import { PROJECT_CATEGORIES } from '@/constants'
 import PageHero from '@/components/shared/PageHero'
@@ -64,6 +64,71 @@ export default function ProjectsPage() {
 
       <section className="py-20 bg-slate-50">
         <div className="container-custom">
+          {/* Sleek Compact Execution Scale Ribbon */}
+          <div className="mb-10 rounded-2xl bg-slate-950 border border-slate-800/80 p-4 sm:p-5 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-32 bg-brandRed/10 rounded-full blur-2xl pointer-events-none" />
+            
+            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              
+              {/* Left title & badge */}
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-brandRed/15 border border-brandRed/30 flex items-center justify-center text-brandRed flex-shrink-0">
+                  <Building2 size={20} />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brandRed animate-pulse" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">
+                      Proven Execution Scale
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-display font-extrabold text-white tracking-tight">
+                    100+ Multi-Storey Buildings Executed
+                    <span className="text-slate-400 font-normal text-xs sm:text-sm ml-2 hidden sm:inline">
+                      (7 to 50 Floors &amp; Luxury Bungalows)
+                    </span>
+                  </h3>
+                </div>
+              </div>
+
+              {/* Right 4 Compact Metric Badges */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full lg:w-auto">
+                {/* Metric 1 */}
+                <div className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-center flex flex-col justify-center">
+                  <div className="text-base sm:text-lg font-display font-black text-white leading-none">
+                    100<span className="text-brandRed text-sm">+</span>
+                  </div>
+                  <div className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Buildings Done</div>
+                </div>
+
+                {/* Metric 2 */}
+                <div className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-center flex flex-col justify-center">
+                  <div className="text-base sm:text-lg font-display font-black text-amber-400 leading-none">
+                    7 – 15 <span className="text-xs font-mono">Fl</span>
+                  </div>
+                  <div className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Mid-Rise Towers</div>
+                </div>
+
+                {/* Metric 3 */}
+                <div className="bg-brandRed/15 border border-brandRed/40 rounded-xl px-3.5 py-2 text-center flex flex-col justify-center">
+                  <div className="text-base sm:text-lg font-display font-black text-white leading-none">
+                    Up to 50 <span className="text-brandRed text-xs font-mono">Fl</span>
+                  </div>
+                  <div className="text-[10px] font-bold text-red-300 mt-1 uppercase tracking-wider">High-Rise Towers</div>
+                </div>
+
+                {/* Metric 4 */}
+                <div className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-center flex flex-col justify-center">
+                  <div className="text-base sm:text-lg font-display font-black text-emerald-400 leading-none">
+                    50<span className="text-brandRed text-sm">+</span>
+                  </div>
+                  <div className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Luxury Bungalows</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           {/* Filters */}
           <div className="flex flex-col md:flex-row gap-4 mb-12">
             {/* Search */}

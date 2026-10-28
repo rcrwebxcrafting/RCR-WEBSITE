@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import CountUp from 'react-countup'
 import { useInView } from 'react-intersection-observer'
+import { Building2, TrendingUp, Home, Award } from 'lucide-react'
 import { STATS } from '@/constants'
 import { useTranslation } from '@/hooks/useTranslation'
 
@@ -104,25 +105,52 @@ export function StatsSection() {
       <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-brandRed/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container-custom relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {STATS.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative text-center p-8 lg:p-10 rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md hover:border-brandRed/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(192,30,46,0.3)] group overflow-hidden"
-            >
-              <div className="absolute top-0 left-0 w-full h-1.5 bg-brandRed scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              
-              <div className="text-5xl lg:text-6xl font-display font-black text-white mb-2 md:mb-4 group-hover:text-brandRed transition-colors duration-500 tracking-tighter">
-                {inView ? <CountUp end={parseInt(stat.value)} duration={2.5 + i * 0.2} separator="," /> : '0'}
-                <span className="text-brandRed group-hover:text-white transition-colors duration-500">{stat.suffix}</span>
-              </div>
-              <div className="text-xs md:text-sm text-slate-400 font-bold uppercase tracking-widest group-hover:text-slate-200 transition-colors">{t(STAT_KEYS[i])}</div>
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 md:gap-5">
+          {STATS.map((stat, i) => {
+            const icons = [Building2, TrendingUp, Home, Award]
+            const Icon = icons[i] || Building2
+
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                className="relative text-left p-5 sm:p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md hover:border-brandRed/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_-10px_rgba(192,30,46,0.3)] group overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brandRed via-red-500 to-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+
+                <div className="flex items-center justify-between mb-3">
+                  <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-red-400 group-hover:scale-110 group-hover:bg-brandRed group-hover:text-white transition-all">
+                    <Icon size={16} />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                    0{i + 1}
+                  </span>
+                </div>
+
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight group-hover:text-red-400 transition-colors duration-300">
+                    {inView ? <CountUp end={parseInt(stat.value)} duration={2.2 + i * 0.15} separator="," /> : '0'}
+                  </span>
+                  <span className="text-lg sm:text-xl font-display font-extrabold text-brandRed">
+                    {stat.suffix}
+                  </span>
+                </div>
+
+                <div className="text-xs sm:text-[13px] font-bold text-white tracking-tight leading-snug">
+                  {t(STAT_KEYS[i])}
+                </div>
+
+                {stat.subtext && (
+                  <p className="text-[10px] sm:text-[11px] text-slate-400 font-medium mt-1 leading-tight line-clamp-1">
+                    {stat.subtext}
+                  </p>
+                )}
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>

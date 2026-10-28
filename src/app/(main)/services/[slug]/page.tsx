@@ -88,7 +88,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     ? (service as { process: typeof DEFAULT_PROCESS }).process
     : DEFAULT_PROCESS
 
-  const POPULAR_SLUGS = ['mumbai', 'thane', 'kalyan', 'vasai', 'virar', 'navi-mumbai', 'bandra', 'andheri', 'goregaon', 'borivali', 'panvel', 'kharghar']
+  const POPULAR_SLUGS = ['mumbai', 'pune', 'pcmc', 'thane', 'navi-mumbai', 'hinjawadi', 'wakad', 'andheri', 'bandra', 'borivali', 'kothrud', 'panvel']
   const popularLocations = TARGET_LOCATIONS.filter(loc => POPULAR_SLUGS.includes(loc.slug)).slice(0, 12)
 
   return (

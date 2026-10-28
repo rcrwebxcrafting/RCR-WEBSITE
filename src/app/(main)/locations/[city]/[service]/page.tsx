@@ -520,6 +520,67 @@ export default async function ServiceLocationPage({ params }: ServiceLocationPag
         </div>
       </section>
 
+      {/* All Construction Services in Current Location */}
+      <section className="py-20 bg-slate-50 border-t border-slate-200 relative">
+        <div className="container-custom max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <span className="text-xs font-mono tracking-widest text-brandRed uppercase font-semibold mb-2 block">
+              Complete Services Suite in {location.name}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
+              All Construction Services in <span className="text-brandRed">{location.name}</span>
+            </h2>
+            <p className="text-slate-600 mt-2 text-sm max-w-2xl mx-auto">
+              Looking for other specialized civil engineering or structural works in {location.name}? Browse our complete range of certified services below.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {SERVICES_LIST.map((s) => {
+              const isCurrent = s.slug === service.slug
+              return (
+                <Link
+                  key={s.id}
+                  href={`/locations/${location.slug}/${s.slug}`}
+                  className={`p-6 rounded-2xl border transition-all duration-300 flex flex-col justify-between group ${
+                    isCurrent
+                      ? 'border-brandRed bg-white shadow-md ring-2 ring-brandRed/20'
+                      : 'border-slate-200 bg-white hover:border-brandRed/40 hover:shadow-lg hover:-translate-y-1'
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                        <MapPin size={12} className="text-brandRed" />
+                        {location.name}
+                      </span>
+                      {isCurrent ? (
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-brandRed text-white">
+                          Current Service
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-semibold text-slate-400 group-hover:text-brandRed transition-colors">
+                          Available in {location.name}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className={`font-display font-bold text-base mb-2 transition-colors ${isCurrent ? 'text-brandRed' : 'text-slate-900 group-hover:text-brandRed'}`}>
+                      {s.title}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-2">
+                      {s.shortDescription}
+                    </p>
+                  </div>
+                  <div className="text-xs font-bold text-brandRed flex items-center gap-1.5 pt-3 border-t border-slate-100 mt-auto">
+                    {isCurrent ? 'Currently Viewing' : `View ${s.title}`} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Spiderweb Crawler Linking Mesh Section */}
       {relatedLocations.length > 0 && (
         <section className="py-20 bg-slate-50 border-t border-slate-200 relative">

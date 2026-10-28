@@ -62,9 +62,9 @@ export default function HomePage() {
       <WhyChooseUs />
       <ProjectsSection />
       <DeveloperPartnerSection />
-      <TestimonialsSection />
       <GalleryPreview />
       <ProcessSection />
+      <TestimonialsSection />
       <CTASection />
       <ContactSection />
     </>

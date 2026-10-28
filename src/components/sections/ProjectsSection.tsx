@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, Calendar, ArrowRight } from 'lucide-react'
+import { MapPin, Calendar, ArrowRight, Building2, Layers, TrendingUp, Home } from 'lucide-react'
 import { cn, formatDateShort, getStatusColor, CONSTRUCTION_IMAGES } from '@/utils'
 import { useTranslation } from '@/hooks/useTranslation'
 
@@ -98,6 +98,71 @@ export default function ProjectsSection() {
           </div>
         </div>
 
+        {/* Sleek Compact Execution Scale Ribbon */}
+        <div className="mb-10 rounded-2xl bg-slate-950 border border-slate-800/80 p-4 sm:p-5 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-32 bg-brandRed/10 rounded-full blur-2xl pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            
+            {/* Left title & badge */}
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-brandRed/15 border border-brandRed/30 flex items-center justify-center text-brandRed flex-shrink-0">
+                <Building2 size={20} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brandRed animate-pulse" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">
+                    Proven Execution Scale
+                  </span>
+                </div>
+                <h3 className="text-base sm:text-lg font-display font-extrabold text-white tracking-tight">
+                  100+ Multi-Storey Buildings Executed
+                  <span className="text-slate-400 font-normal text-xs sm:text-sm ml-2 hidden sm:inline">
+                    (7 to 50 Floors &amp; Luxury Bungalows)
+                  </span>
+                </h3>
+              </div>
+            </div>
+
+            {/* Right 4 Compact Metric Badges */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full lg:w-auto">
+              {/* Metric 1 */}
+              <div className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-center flex flex-col justify-center">
+                <div className="text-base sm:text-lg font-display font-black text-white leading-none">
+                  100<span className="text-brandRed text-sm">+</span>
+                </div>
+                <div className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Buildings Done</div>
+              </div>
+
+              {/* Metric 2 */}
+              <div className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-center flex flex-col justify-center">
+                <div className="text-base sm:text-lg font-display font-black text-amber-400 leading-none">
+                  7 – 15 <span className="text-xs font-mono">Fl</span>
+                </div>
+                <div className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Mid-Rise Towers</div>
+              </div>
+
+              {/* Metric 3 */}
+              <div className="bg-brandRed/15 border border-brandRed/40 rounded-xl px-3.5 py-2 text-center flex flex-col justify-center">
+                <div className="text-base sm:text-lg font-display font-black text-white leading-none">
+                  Up to 50 <span className="text-brandRed text-xs font-mono">Fl</span>
+                </div>
+                <div className="text-[10px] font-bold text-red-300 mt-1 uppercase tracking-wider">High-Rise Towers</div>
+              </div>
+
+              {/* Metric 4 */}
+              <div className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-center flex flex-col justify-center">
+                <div className="text-base sm:text-lg font-display font-black text-emerald-400 leading-none">
+                  50<span className="text-brandRed text-sm">+</span>
+                </div>
+                <div className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Luxury Bungalows</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
         {/* Projects grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading
@@ -183,8 +248,83 @@ function ProjectSkeleton() {
 
 function getMockProjects(): Project[] {
   return [
-    { _id: '1', title: 'Residential Building - Virar East', slug: 'residential-virar-east', shortDescription: 'Complete RCC construction of a 4-storey residential building with premium finishing.', coverImage: CONSTRUCTION_IMAGES[0], category: 'residential', status: 'completed', location: 'Virar East', startDate: '2024-01-01', workType: 'RCC Construction' },
-    { _id: '2', title: 'Commercial Complex - Vasai', slug: 'commercial-vasai', shortDescription: 'Large-scale commercial project with structural RCC work and civil construction.', coverImage: CONSTRUCTION_IMAGES[1], category: 'commercial', status: 'ongoing', location: 'Vasai', startDate: '2024-06-01', workType: 'Civil Work' },
-    { _id: '3', title: 'Slab & Beam Work - Nalasopara', slug: 'slab-beam-nalasopara', shortDescription: 'Professional slab casting and beam work for a multi-level structure.', coverImage: CONSTRUCTION_IMAGES[2], category: 'residential', status: 'completed', location: 'Nalasopara', startDate: '2023-11-01', workType: 'Slab Work' },
+    { 
+      _id: '1', 
+      title: '50-Storey Mega High-Rise Tower - Mumbai', 
+      slug: '50-storey-high-rise-tower', 
+      shortDescription: 'Heavy-duty RCC column reinforcement, core wall casting, and fast-cycle slab shuttering up to 50 floors.', 
+      coverImage: '/images/hero_construction_bg.png', 
+      category: 'commercial', 
+      status: 'completed', 
+      location: 'Mumbai Suburban', 
+      startDate: '2023-01-15', 
+      workType: '50-Floor High-Rise RCC',
+      clientName: 'CIDCO / Shapoorji Sub-Contract'
+    },
+    { 
+      _id: '2', 
+      title: '15-Storey Residential Towers - Panvel', 
+      slug: '15-storey-residential-towers', 
+      shortDescription: 'High-speed structural RCC execution and M30 grade concrete slab casting for multi-wing 15-floor towers.', 
+      coverImage: '/images/commercial_building.png', 
+      category: 'residential', 
+      status: 'completed', 
+      location: 'Panvel, Navi Mumbai', 
+      startDate: '2023-08-01', 
+      workType: '15-Floor Tower Casting',
+      clientName: 'Kalpataru Partner'
+    },
+    { 
+      _id: '3', 
+      title: 'Luxury Private Bungalow Construction - Palghar', 
+      slug: 'luxury-private-bungalow-construction', 
+      shortDescription: 'Turnkey architectural bungalow development featuring custom RCC column framing, cantilever slabs, and luxury finishing.', 
+      coverImage: '/images/residential_villa.png', 
+      category: 'residential', 
+      status: 'completed', 
+      location: 'Palghar & Virar', 
+      startDate: '2024-02-10', 
+      workType: 'Turnkey Bungalow Build',
+      clientName: 'Private Client'
+    },
+    { 
+      _id: '4', 
+      title: 'G+7 Commercial & Residential Hub - Virar East', 
+      slug: 'g7-commercial-residential-virar', 
+      shortDescription: 'Complete civil engineering, shuttering formwork, and brickwork masonry for G+7 commercial-cum-residential building.', 
+      coverImage: '/images/about_1.jpg', 
+      category: 'commercial', 
+      status: 'completed', 
+      location: 'Virar East', 
+      startDate: '2024-01-01', 
+      workType: 'G+7 Storey RCC Work',
+      clientName: 'Local Developer'
+    },
+    { 
+      _id: '5', 
+      title: 'High-Rise Residential Tower - Thane', 
+      slug: 'high-rise-tower-thane', 
+      shortDescription: 'Structural framing and heavy shuttering execution for landmark multi-storey tower developments.', 
+      coverImage: '/images/rcc_steel_work.png', 
+      category: 'residential', 
+      status: 'ongoing', 
+      location: 'Thane West', 
+      startDate: '2024-05-01', 
+      workType: 'High-Rise Shuttering',
+      clientName: 'Dosti Realty Sub-Contract'
+    },
+    { 
+      _id: '6', 
+      title: 'Custom Modern Villa & Bungalow - Vasai', 
+      slug: 'custom-modern-villa-vasai', 
+      shortDescription: 'Independent duplex bungalow with seismic-resistant RCC foundation, waterproofing, and terrace garden slab.', 
+      coverImage: '/images/slab_casting_work.png', 
+      category: 'residential', 
+      status: 'completed', 
+      location: 'Vasai West', 
+      startDate: '2023-11-01', 
+      workType: 'Villa Construction',
+      clientName: 'Private Estate'
+    },
   ]
 }

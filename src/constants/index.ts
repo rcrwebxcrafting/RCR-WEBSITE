@@ -361,10 +361,10 @@ export const SERVICES_LIST = [
 ]
 
 export const STATS = [
-  { label: 'Projects Completed', value: '150', suffix: '+' },
-  { label: 'Happy Clients', value: '120', suffix: '+' },
-  { label: 'Skilled Workforce', value: '50', suffix: '+' },
-  { label: 'Years of Experience', value: '10', suffix: '+' },
+  { label: 'Buildings Executed', value: '100', suffix: '+', subtext: '7 to 50 Storeys High-Rise' },
+  { label: 'Max Height Executed', value: '50', suffix: '+ Fl', subtext: 'Skyscraper Casting' },
+  { label: 'Luxury Bungalows', value: '50', suffix: '+', subtext: 'Turnkey Villas Built' },
+  { label: 'Years of Experience', value: '15', suffix: '+', subtext: 'Civil & RCC Mastery' },
 ]
 
 export const WHY_CHOOSE_US = [
